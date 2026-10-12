@@ -1,0 +1,27 @@
+{
+    "name": "مشوارك أدمن",
+    "short_name": "مشوارك أدمن",
+    "description": "لوحة تحكم مشوارك لإدارة التسجيلات والعملاء",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#090d16",
+    "theme_color": "#8b5cf6",
+    "lang": "ar",
+    "dir": "rtl",
+    "scope": "./",
+    "icons": [
+        {
+            "src": "./logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
