@@ -487,12 +487,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Registrations - طلبات التسجيل -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Registrations -->
 <div class="page active" id="page-registrations">
-
-    <!-- الإحصائيات -->
     <div class="stats-grid">
         <div class="stat-card pending">
             <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
@@ -521,7 +517,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         </div>
     </div>
 
-    <!-- فلتر المناطق -->
     <div class="card" style="padding:14px 18px">
         <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px">
             <i class="fas fa-map-marker-alt" style="color:#a78bfa"></i> فلتر حسب المنطقة
@@ -533,7 +528,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         </div>
     </div>
 
-    <!-- الموافقة التلقائية -->
     <div class="card" style="padding:14px 18px">
         <div class="toggle-row" style="margin:0;background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.3)">
             <div class="toggle-label">
@@ -549,7 +543,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         </div>
     </div>
 
-    <!-- التابات -->
     <div class="tabs-bar">
         <button class="tab-item active" id="regTab-pending" onclick="switchRegTab('pending')">
             <i class="fas fa-hourglass-half"></i> معلقة <span class="cnt" id="regCountPending">0</span>
@@ -565,20 +558,16 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         </button>
     </div>
 
-    <!-- البحث -->
     <div style="margin-bottom:14px">
         <input type="text" id="regSearchInput" placeholder="🔍 ابحث بالاسم أو الرقم..." oninput="renderRegistrationsList()">
     </div>
 
-    <!-- قائمة الطلبات -->
     <div id="registrationsListContainer">
         <div class="empty-state"><i class="fas fa-inbox"></i><p>لا توجد طلبات</p></div>
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Customers - العملاء المعتمدين -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Customers -->
 <div class="page" id="page-customers">
     <div class="card">
         <div class="card-title"><i class="fas fa-users"></i> العملاء المعتمدين</div>
@@ -592,9 +581,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Blacklist - قائمة الحظر -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Blacklist -->
 <div class="page" id="page-blacklist">
     <div class="card">
         <div class="card-title"><i class="fas fa-user-slash"></i> قائمة الحظر</div>
@@ -605,9 +592,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Stats - الإحصائيات -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Stats -->
 <div class="page" id="page-stats">
     <div class="card">
         <div class="card-title"><i class="fas fa-chart-pie"></i> نظرة عامة</div>
@@ -630,9 +615,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Areas - المناطق -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Areas -->
 <div class="page" id="page-areas">
     <div class="card">
         <div class="card-title"><i class="fas fa-map-marked-alt"></i> المناطق المتاحة</div>
@@ -643,9 +626,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- PAGE: Settings - الإعدادات -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE: Settings -->
 <div class="page" id="page-settings">
     <div class="card">
         <div class="card-title"><i class="fas fa-robot"></i> الموافقة التلقائية</div>
@@ -694,9 +675,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 </main>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
 <!-- Reject Modal -->
-<!-- ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="rejectOverlay" onclick="closeRejectModal()"></div>
 <div class="center-modal" id="rejectModal">
     <div class="center-modal-header">
@@ -716,9 +695,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
 <!-- Ban Modal -->
-<!-- ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="banOverlay" onclick="closeBanModal()"></div>
 <div class="center-modal" id="banModal">
     <div class="center-modal-header">
@@ -731,7 +708,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
     <div class="center-modal-body">
         <label class="field-label">📝 سبب الحظر</label>
-        <textarea id="banReasonInput" rows="3" placeholder="مثال: سلوك غير لائق، رسائل مزعجة..."></textarea>
+        <textarea id="banReasonInput" rows="3" placeholder="مثال: سلوك غير لائق..."></textarea>
         <div class="toggle-row" style="margin-top:14px">
             <div class="toggle-label">
                 <div>حظر دائم</div>
@@ -748,9 +725,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
 <!-- Confirm Modal -->
-<!-- ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="confirmOverlay" onclick="closeConfirm()"></div>
 <div class="center-modal" id="confirmModal" style="max-width:420px">
     <div class="center-modal-body" style="text-align:center;padding:30px 20px">
@@ -766,9 +741,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
 <!-- Edit Points Modal -->
-<!-- ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="pointsOverlay" onclick="closePointsModal()"></div>
 <div class="center-modal" id="pointsModal" style="max-width:420px">
     <div class="center-modal-header">
@@ -783,15 +756,9 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <label class="field-label">⭐ النقاط الجديدة</label>
         <input type="number" id="newPointsInput" min="0" placeholder="0">
         <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn btn-sm" style="flex:1;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)" onclick="addPoints(50)">
-                +50
-            </button>
-            <button class="btn btn-sm" style="flex:1;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)" onclick="addPoints(100)">
-                +100
-            </button>
-            <button class="btn btn-sm" style="flex:1;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)" onclick="addPoints(-50)">
-                -50
-            </button>
+            <button class="btn btn-sm" style="flex:1;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)" onclick="addPoints(50)">+50</button>
+            <button class="btn btn-sm" style="flex:1;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)" onclick="addPoints(100)">+100</button>
+            <button class="btn btn-sm" style="flex:1;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)" onclick="addPoints(-50)">-50</button>
         </div>
         <button class="btn btn-success" style="width:100%;margin-top:15px" onclick="confirmPointsEdit()">
             <i class="fas fa-save"></i> حفظ
@@ -799,14 +766,11 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMessage">رسالة</span></div><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMessage">رسالة</span></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
-/* ═══════════════════════════════════════════════════════════
-   مشوارك أدمن - لوحة التحكم
-   Firebase + Registrations + Bans + Auto-Approval
-   ═══════════════════════════════════════════════════════════ */
-
 const firebaseConfig = {
     apiKey: "AIzaSyAR98tJfqxO0_LZT7GRn-peOqQB1PgP6D4",
     authDomain: "family-4ff2a.firebaseapp.com",
@@ -816,9 +780,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* ═══════════════════════════════════════════════════════ */
-/* Global State */
-/* ═══════════════════════════════════════════════════════ */
 let registrationsCache = {};
 let customersCache = {};
 let blacklistCache = {};
@@ -833,9 +794,6 @@ let banTargetPhone = null;
 let banTargetRegId = null;
 let pointsTargetPhone = null;
 
-/* ═══════════════════════════════════════════════════════ */
-/* Helper Functions */
-/* ═══════════════════════════════════════════════════════ */
 function $id(id){ return document.getElementById(id); }
 
 let toastTimer;
@@ -844,9 +802,7 @@ function showToast(msg, type='info'){
     $id('toastMessage').innerText = msg;
     t.className = 'toast show ' + type;
     const i = t.querySelector('i');
-    i.className = type==='success' ? 'fas fa-check-circle'
-                 : type==='error'   ? 'fas fa-times-circle'
-                 : 'fas fa-info-circle';
+    i.className = type==='success' ? 'fas fa-check-circle' : type==='error' ? 'fas fa-times-circle' : 'fas fa-info-circle';
     clearTimeout(toastTimer);
     toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
 }
@@ -856,9 +812,6 @@ function toggleSidebar(){
     $id('sidebarOverlay').classList.toggle('show');
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Confirm Modal */
-/* ═══════════════════════════════════════════════════════ */
 let confirmCb = null;
 function showConfirm(icon, title, msg, cb){
     $id('confirmIcon').innerHTML = `<i class="fas ${icon}" style="font-size:32px"></i>`;
@@ -874,35 +827,23 @@ function closeConfirm(){
     $id('confirmModal').classList.remove('show');
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Auto Approval Settings */
-/* ═══════════════════════════════════════════════════════ */
-function getAutoApproveMinutes(){
-    return Number(localStorage.getItem('admin_auto_minutes')) || 5;
-}
-function isAutoApproveEnabled(){
-    return localStorage.getItem('admin_auto_enabled') !== 'false';
-}
-function isSoundEnabled(){
-    return localStorage.getItem('admin_sound') !== 'false';
-}
+// Auto Approval
+function getAutoApproveMinutes(){ return Number(localStorage.getItem('admin_auto_minutes')) || 5; }
+function isAutoApproveEnabled(){ return localStorage.getItem('admin_auto_enabled') !== 'false'; }
+function isSoundEnabled(){ return localStorage.getItem('admin_sound') !== 'false'; }
 
 function loadAutoApprovalSettings(){
     const enabled = isAutoApproveEnabled();
     const minutes = getAutoApproveMinutes();
     const sound = isSoundEnabled();
-    
     const toggle = $id('autoApproveToggle');
     if(toggle) toggle.checked = enabled;
     const settingsToggle = $id('settingsAutoToggle');
     if(settingsToggle) settingsToggle.checked = enabled;
-    
     const minInput = $id('settingsAutoMinutes');
     if(minInput) minInput.value = minutes;
-    
     const minDisp = $id('autoMinutesDisplay');
     if(minDisp) minDisp.innerText = minutes;
-    
     const soundToggle = $id('settingsSoundToggle');
     if(soundToggle) soundToggle.checked = sound;
 }
@@ -911,18 +852,14 @@ function saveAutoApproveSetting(){
     const toggle = $id('autoApproveToggle');
     const settingsToggle = $id('settingsAutoToggle');
     const enabled = (toggle && toggle.checked) || (settingsToggle && settingsToggle.checked);
-    
     const minInput = $id('settingsAutoMinutes');
     const minutes = minInput ? Number(minInput.value) || 5 : 5;
-    
     localStorage.setItem('admin_auto_enabled', enabled);
     localStorage.setItem('admin_auto_minutes', minutes);
-    
     if(toggle) toggle.checked = enabled;
     if(settingsToggle) settingsToggle.checked = enabled;
     const minDisp = $id('autoMinutesDisplay');
     if(minDisp) minDisp.innerText = minutes;
-    
     showToast(enabled ? '✅ تم تفعيل الموافقة التلقائية' : '⏸️ تم إيقاف الموافقة التلقائية', enabled ? 'success' : 'info');
 }
 
@@ -933,15 +870,11 @@ function saveSoundSetting(){
     showToast(toggle.checked ? '🔊 تم تفعيل الإشعار الصوتي' : '🔕 تم إيقاف الإشعار', 'success');
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Notification Sound */
-/* ═══════════════════════════════════════════════════════ */
 function playNotificationSound(){
     if(!isSoundEnabled()) return;
     const now = Date.now();
     if(now - lastSoundTime < 5000) return;
     lastSoundTime = now;
-    
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const playTone = (freq, startTime, duration) => {
@@ -959,20 +892,10 @@ function playNotificationSound(){
         playTone(880, 0, 0.3);
         playTone(1200, 0.15, 0.3);
         playTone(880, 0.3, 0.4);
-    } catch(e){
-        console.log('Sound error:', e);
-    }
+    } catch(e){ console.log('Sound error:', e); }
 }
+function testSound(){ lastSoundTime = 0; playNotificationSound(); showToast('🔊 اختبار الصوت','info'); }
 
-function testSound(){
-    lastSoundTime = 0;
-    playNotificationSound();
-    showToast('🔊 اختبار الصوت','info');
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* Load All Data */
-/* ═══════════════════════════════════════════════════════ */
 function initApp(){
     loadAreas();
     loadRegistrations();
@@ -983,9 +906,7 @@ function initApp(){
     startTimerRefreshLoop();
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Areas */
-/* ═══════════════════════════════════════════════════════ */
+// Areas
 function loadAreas(){
     db.ref('areas').on('value', snap=>{
         areasCache = {};
@@ -1001,8 +922,6 @@ function loadAreas(){
 
 function renderAreaFilter(){
     const c = $id('areaFilter'); if(!c) return;
-    
-    // احسب عدد الطلبات المعلقة لكل منطقة
     const pendingByArea = {};
     Object.values(registrationsCache).forEach(r=>{
         if(r.status === 'pending'){
@@ -1010,11 +929,9 @@ function renderAreaFilter(){
             pendingByArea[a] = (pendingByArea[a] || 0) + 1;
         }
     });
-    
     let html = `<button class="area-chip ${currentAreaFilter==='all'?'active':''}" data-area="all" onclick="filterByArea('all')">
         <i class="fas fa-globe"></i> كل المناطق
     </button>`;
-    
     Object.values(areasCache).forEach(area=>{
         const count = pendingByArea[area] || 0;
         const isActive = currentAreaFilter === area;
@@ -1023,7 +940,6 @@ function renderAreaFilter(){
             ${count > 0 ? `<span class="count">${count}</span>` : ''}
         </button>`;
     });
-    
     c.innerHTML = html;
 }
 
@@ -1042,14 +958,11 @@ function renderAreasPage(){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-map"></i><p>لا توجد مناطق</p></div>';
         return;
     }
-    
-    // احسب عدد العملاء لكل منطقة
     const customersByArea = {};
     Object.values(customersCache).forEach(c => {
         const a = c.area || 'غير محدد';
         customersByArea[a] = (customersByArea[a] || 0) + 1;
     });
-    
     let html = '';
     areas.forEach(area=>{
         const count = customersByArea[area] || 0;
@@ -1071,25 +984,16 @@ function renderAreasPage(){
     c.innerHTML = html;
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Registrations */
-/* ═══════════════════════════════════════════════════════ */
+// Registrations
 function loadRegistrations(){
     db.ref('pending_registrations').on('value', snap=>{
         const oldPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
-        
         registrationsCache = {};
         snap.forEach(c=>{
             registrationsCache[c.key] = { id:c.key, ...c.val() };
         });
-        
         const newPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
-        
-        // صوت عند وصول طلب جديد
-        if(newPending > oldPending){
-            playNotificationSound();
-        }
-        
+        if(newPending > oldPending){ playNotificationSound(); }
         updateRegistrationsBadge();
         updateStats();
         renderAreaFilter();
@@ -1113,17 +1017,14 @@ function updateStats(){
     const approved = all.filter(r=>r.status==='approved').length;
     const rejected = all.filter(r=>r.status==='rejected').length;
     const banned = Object.keys(blacklistCache).length;
-    
     const today = new Date(); today.setHours(0,0,0,0);
     const todayTime = today.getTime();
     const todayCount = all.filter(r=>(r.requestedAt||0) >= todayTime).length;
-    
     if($id('statPending')) $id('statPending').innerText = pending;
     if($id('statApproved')) $id('statApproved').innerText = approved;
     if($id('statRejected')) $id('statRejected').innerText = rejected;
     if($id('statBanned')) $id('statBanned').innerText = banned;
     if($id('statToday')) $id('statToday').innerText = todayCount;
-    
     if($id('regCountPending')) $id('regCountPending').innerText = pending;
     if($id('regCountApproved')) $id('regCountApproved').innerText = approved;
     if($id('regCountRejected')) $id('regCountRejected').innerText = rejected;
@@ -1140,37 +1041,21 @@ function switchRegTab(tab){
 
 function renderRegistrationsList(){
     const c = $id('registrationsListContainer'); if(!c) return;
-    
     const search = ($id('regSearchInput')?.value||'').toLowerCase().trim();
-    
     let list = Object.values(registrationsCache);
-    
-    // فلتر التاب
-    if(currentRegTab !== 'all'){
-        list = list.filter(r=>r.status === currentRegTab);
-    }
-    
-    // فلتر المنطقة
-    if(currentAreaFilter !== 'all'){
-        list = list.filter(r=>r.area === currentAreaFilter);
-    }
-    
-    // فلتر البحث
+    if(currentRegTab !== 'all'){ list = list.filter(r=>r.status === currentRegTab); }
+    if(currentAreaFilter !== 'all'){ list = list.filter(r=>r.area === currentAreaFilter); }
     if(search){
         list = list.filter(r=>
             (r.name||'').toLowerCase().includes(search) ||
             (r.phone||'').includes(search)
         );
     }
-    
-    // ترتيب من الأحدث
     list.sort((a,b)=>(b.requestedAt||0) - (a.requestedAt||0));
-    
     if(list.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>لا توجد طلبات في القسم ده</p></div>';
         return;
     }
-    
     let html = '';
     list.forEach(r=>{ html += renderRegistrationCard(r); });
     c.innerHTML = html;
@@ -1187,7 +1072,6 @@ function renderRegistrationCard(r){
     };
     const s = statusMap[r.status] || statusMap.pending;
     
-    // المؤقت
     let timerHtml = '';
     if(r.status === 'pending'){
         const elapsed = Date.now() - (r.requestedAt||0);
@@ -1201,11 +1085,9 @@ function renderRegistrationCard(r){
         </div>`;
     }
     
-    // وقت الطلب
     const date = r.requestedAt ? new Date(r.requestedAt) : null;
     const timeStr = date ? date.toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
     
-    // أزرار
     let actions = '';
     if(r.status === 'pending'){
         actions = `
@@ -1277,25 +1159,19 @@ function renderRegistrationCard(r){
     </div>`;
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Actions: Approve / Reject / Ban / Delete */
-/* ═══════════════════════════════════════════════════════ */
+// Approve / Reject / Ban / Delete
 function approveRegistration(id){
     const reg = registrationsCache[id]; if(!reg) return;
-    
-    // تأكد إن الرقم مش محظور
     const clean = (reg.phone||'').replace(/\D/g,'');
     if(blacklistCache[clean]){
-        showToast('⚠️ الرقم ده محظور! فك الحظر الأول','error');
+        showToast('⚠️ الرقم ده محظور!','error');
         return;
     }
-    
     db.ref('pending_registrations/'+id).update({
         status: 'approved',
         approvedAt: Date.now(),
         approvedBy: 'admin'
     }).then(()=>{
-        // سجل في العملاء المعتمدين
         db.ref('approved_users/'+clean).update({
             name: reg.name,
             phone: reg.phone,
@@ -1303,7 +1179,6 @@ function approveRegistration(id){
             approvedAt: Date.now(),
             source: 'admin'
         });
-        // سجل في customers (لو محتاج)
         db.ref('customers/'+clean).update({
             name: reg.name,
             phone: reg.phone,
@@ -1336,7 +1211,6 @@ function closeRejectModal(){
 function confirmReject(){
     if(!rejectTargetId) return;
     const reason = $id('rejectReasonInput').value.trim();
-    
     db.ref('pending_registrations/'+rejectTargetId).update({
         status: 'rejected',
         rejectedAt: Date.now(),
@@ -1344,9 +1218,7 @@ function confirmReject(){
     }).then(()=>{
         showToast('❌ تم رفض الطلب','info');
         closeRejectModal();
-    }).catch(()=>{
-        showToast('خطأ في الرفض','error');
-    });
+    }).catch(()=>{ showToast('خطأ في الرفض','error'); });
 }
 
 function deleteRegistration(id){
@@ -1358,9 +1230,7 @@ function deleteRegistration(id){
     });
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Ban System */
-/* ═══════════════════════════════════════════════════════ */
+// Ban
 function openBanModal(phone, regId, name){
     banTargetPhone = (phone||'').replace(/\D/g,'');
     banTargetRegId = regId || null;
@@ -1382,25 +1252,20 @@ function confirmBan(){
     if(!banTargetPhone) return;
     const reason = $id('banReasonInput').value.trim() || 'بدون سبب';
     const permanent = $id('permanentBanToggle').checked;
-    
-    // سجل الحظر
     db.ref('blacklist/'+banTargetPhone).set({
         phone: banTargetPhone,
         reason: reason,
         permanent: permanent,
         bannedAt: Date.now()
     }).then(()=>{
-        // حدّث حالة التسجيل
         if(banTargetRegId){
             db.ref('pending_registrations/'+banTargetRegId).update({
                 status: 'banned',
                 bannedAt: Date.now()
             });
         }
-        // شيل من العملاء
         db.ref('approved_users/'+banTargetPhone).remove();
         db.ref('customers/'+banTargetPhone).remove();
-        
         showToast('🚫 تم حظر الرقم','success');
         closeBanModal();
     }).catch(err=>{
@@ -1423,14 +1288,11 @@ function loadBlacklist(){
 function renderBlacklist(){
     const c = $id('blacklistContainer'); if(!c) return;
     const list = Object.values(blacklistCache);
-    
     if(list.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>لا يوجد محظورين</p></div>';
         return;
     }
-    
     list.sort((a,b)=>(b.bannedAt||0) - (a.bannedAt||0));
-    
     let html = '';
     list.forEach(b=>{
         const date = b.bannedAt ? new Date(b.bannedAt).toLocaleString('ar-EG') : '';
@@ -1463,9 +1325,7 @@ function unbanNumber(phone){
     });
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Customers */
-/* ═══════════════════════════════════════════════════════ */
+// Customers
 function loadCustomers(){
     db.ref('customers').on('value', snap=>{
         customersCache = {};
@@ -1479,26 +1339,20 @@ function loadCustomers(){
 
 function renderCustomersList(){
     const c = $id('customersListContainer'); if(!c) return;
-    
     const search = ($id('custSearchInput')?.value||'').toLowerCase().trim();
     let list = Object.values(customersCache);
-    
     if(search){
         list = list.filter(c =>
             (c.name||'').toLowerCase().includes(search) ||
             (c.phone||'').includes(search)
         );
     }
-    
     list.sort((a,b)=>(b.registeredAt||0) - (a.registeredAt||0));
-    
     if(list.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>لا يوجد عملاء</p></div>';
         return;
     }
-    
     let html = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">إجمالي: <b style="color:#fff">${list.length}</b> عميل</div>`;
-    
     list.forEach(cust=>{
         const date = cust.registeredAt ? new Date(cust.registeredAt).toLocaleDateString('ar-EG') : '';
         const points = cust.points || 0;
@@ -1540,9 +1394,7 @@ function renderCustomersList(){
     c.innerHTML = html;
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Points Edit */
-/* ═══════════════════════════════════════════════════════ */
+// Points Edit
 function openPointsModal(phone, name){
     pointsTargetPhone = phone;
     const cust = customersCache[phone] || {};
@@ -1567,10 +1419,8 @@ function addPoints(delta){
 function confirmPointsEdit(){
     if(!pointsTargetPhone) return;
     const newPoints = Number($id('newPointsInput').value) || 0;
-    
     db.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
         .then(()=>{
-            // حدّث في users_points كمان
             db.ref('users_points/'+pointsTargetPhone).set(newPoints);
             showToast(`✅ تم تحديث النقاط: ${newPoints}`,'success');
             closePointsModal();
@@ -1578,9 +1428,7 @@ function confirmPointsEdit(){
         .catch(()=>showToast('خطأ في الحفظ','error'));
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Auto Approval */
-/* ═══════════════════════════════════════════════════════ */
+// Auto Approval
 function startAutoApprovalLoop(){
     if(autoApprovalInterval) clearInterval(autoApprovalInterval);
     autoApprovalInterval = setInterval(checkAutoApproval, 5000);
@@ -1589,27 +1437,17 @@ function startAutoApprovalLoop(){
 
 function checkAutoApproval(){
     if(!isAutoApproveEnabled()) return;
-    
     const waitMs = getAutoApproveMinutes() * 60 * 1000;
     const now = Date.now();
-    
     Object.values(registrationsCache).forEach(r=>{
         if(r.status !== 'pending') return;
         const elapsed = now - (r.requestedAt || 0);
-        
         if(elapsed >= waitMs){
             const clean = (r.phone||'').replace(/\D/g,'');
-            
-            // تجاهل المحظورين
             if(blacklistCache[clean]){
-                db.ref('pending_registrations/'+r.id).update({
-                    status:'banned',
-                    bannedAt: now
-                });
+                db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
                 return;
             }
-            
-            // موافقة تلقائية
             db.ref('pending_registrations/'+r.id).update({
                 status: 'approved',
                 approvedAt: now,
@@ -1636,19 +1474,14 @@ function checkAutoApproval(){
     });
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Timer Refresh Loop */
-/* ═══════════════════════════════════════════════════════ */
+// Timer Refresh
 function startTimerRefreshLoop(){
     if(timerRefreshInterval) clearInterval(timerRefreshInterval);
     timerRefreshInterval = setInterval(()=>{
-        // حدّث المؤقتات في الصفحة
         const timers = document.querySelectorAll('.reg-timer .timer-val');
         if(timers.length === 0) return;
-        
         const waitMs = getAutoApproveMinutes() * 60 * 1000;
         const now = Date.now();
-        
         timers.forEach(t=>{
             const start = Number(t.dataset.start) || now;
             const elapsed = now - start;
@@ -1659,9 +1492,8 @@ function startTimerRefreshLoop(){
         });
     }, 1000);
 }
-/* ═══════════════════════════════════════════════════════ */
-/* Page Navigation */
-/* ═══════════════════════════════════════════════════════ */
+
+// Page Navigation
 const pageTitles = {
     registrations: { icon:'fa-user-check', title:'طلبات التسجيل' },
     customers:     { icon:'fa-users', title:'العملاء المعتمدين' },
@@ -1672,100 +1504,61 @@ const pageTitles = {
 };
 
 function switchPage(page){
-    // تبديل الصفحات
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    
     const p = $id('page-'+page);
     if(p) p.classList.add('active');
-    
     const n = document.querySelector(`.nav-item[data-page="${page}"]`);
     if(n) n.classList.add('active');
-    
-    // عنوان الصفحة
     const info = pageTitles[page];
     if(info) $id('pageTitle').innerHTML = `<i class="fas ${info.icon}"></i> ${info.title}`;
-    
-    // اقفل السايدبار في الموبايل
     if(window.innerWidth <= 900){
         $id('sidebar').classList.remove('open');
         $id('sidebarOverlay').classList.remove('show');
     }
-    
-    // تحميل البيانات الخاصة بالصفحة
-    if(page === 'registrations'){
-        renderRegistrationsList();
-        updateStats();
-        renderAreaFilter();
-    }
-    if(page === 'customers'){
-        renderCustomersList();
-    }
-    if(page === 'blacklist'){
-        renderBlacklist();
-    }
-    if(page === 'stats'){
-        renderStats();
-    }
-    if(page === 'areas'){
-        renderAreasPage();
-    }
-    if(page === 'settings'){
-        loadAutoApprovalSettings();
-    }
-    
+    if(page === 'registrations'){ renderRegistrationsList(); updateStats(); renderAreaFilter(); }
+    if(page === 'customers'){ renderCustomersList(); }
+    if(page === 'blacklist'){ renderBlacklist(); }
+    if(page === 'stats'){ renderStats(); }
+    if(page === 'areas'){ renderAreasPage(); }
+    if(page === 'settings'){ loadAutoApprovalSettings(); }
     window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Stats Page */
-/* ═══════════════════════════════════════════════════════ */
+// Stats Page
 function renderStats(){
-    // نظرة عامة
     const all = Object.values(registrationsCache);
     const totalCustomers = Object.keys(customersCache).length;
     const totalPending = all.filter(r=>r.status==='pending').length;
     const totalApproved = all.filter(r=>r.status==='approved').length;
     const totalBanned = Object.keys(blacklistCache).length;
-    
     if($id('statsTotalCustomers')) $id('statsTotalCustomers').innerText = totalCustomers;
     if($id('statsTotalPending')) $id('statsTotalPending').innerText = totalPending;
     if($id('statsTotalApproved')) $id('statsTotalApproved').innerText = totalApproved;
     if($id('statsTotalBanned')) $id('statsTotalBanned').innerText = totalBanned;
-    
-    // التوزيع حسب المناطق
     renderStatsByArea();
-    
-    // آخر 10 تسجيلات
     renderStatsRecent();
 }
 
 function renderStatsByArea(){
     const c = $id('statsByAreaContainer'); if(!c) return;
-    
-    // احسب عدد العملاء لكل منطقة
     const byArea = {};
     Object.values(customersCache).forEach(cust=>{
         const area = cust.area || 'غير محدد';
         byArea[area] = (byArea[area] || 0) + 1;
     });
-    
     const areas = Object.keys(byArea).sort((a,b)=>byArea[b] - byArea[a]);
-    
     if(areas.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-chart-bar"></i><p>لا توجد بيانات</p></div>';
         return;
     }
-    
     const maxCount = Math.max(...Object.values(byArea));
-    
     let html = '';
     areas.forEach(area=>{
         const count = byArea[area];
         const percent = (count / maxCount) * 100;
         const colors = ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#a855f7'];
         const color = colors[areas.indexOf(area) % colors.length];
-        
         html += `<div style="margin-bottom:14px">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
                 <div style="font-size:13px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px">
@@ -1783,16 +1576,13 @@ function renderStatsByArea(){
 
 function renderStatsRecent(){
     const c = $id('statsRecentContainer'); if(!c) return;
-    
     const all = Object.values(registrationsCache);
     all.sort((a,b)=>(b.requestedAt||0) - (a.requestedAt||0));
     const recent = all.slice(0, 10);
-    
     if(recent.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>لا توجد تسجيلات</p></div>';
         return;
     }
-    
     const statusMap = {
         'pending':  { text:'معلق', color:'#fbbf24' },
         'approved': { text:'موافق', color:'#34d399' },
@@ -1800,7 +1590,6 @@ function renderStatsRecent(){
         'banned':   { text:'محظور', color:'#cbd5e1' },
         'expired':  { text:'منتهي', color:'#94a3b8' }
     };
-    
     let html = '';
     recent.forEach(r=>{
         const s = statusMap[r.status] || statusMap.pending;
@@ -1819,23 +1608,16 @@ function renderStatsRecent(){
     c.innerHTML = html;
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Live Indicator Animation */
-/* ═══════════════════════════════════════════════════════ */
+// Live Indicator
 setInterval(()=>{
     const el = $id('liveIndicator');
     if(!el) return;
     const dot = el.querySelector('i');
-    if(dot){
-        dot.style.opacity = dot.style.opacity === '0.3' ? '1' : '0.3';
-    }
+    if(dot){ dot.style.opacity = dot.style.opacity === '0.3' ? '1' : '0.3'; }
 }, 1000);
 
-/* ═══════════════════════════════════════════════════════ */
-/* Keyboard Shortcuts */
-/* ═══════════════════════════════════════════════════════ */
+// Keyboard Shortcuts
 document.addEventListener('keydown', (e)=>{
-    // Ctrl+K → بحث في الطلبات
     if((e.ctrlKey || e.metaKey) && e.key === 'k'){
         e.preventDefault();
         const searchInput = $id('regSearchInput');
@@ -1845,7 +1627,6 @@ document.addEventListener('keydown', (e)=>{
             searchInput.select();
         }
     }
-    // Escape → اقفل المودالات
     if(e.key === 'Escape'){
         closeConfirm();
         closeRejectModal();
@@ -1854,134 +1635,35 @@ document.addEventListener('keydown', (e)=>{
     }
 });
 
-/* ═══════════════════════════════════════════════════════ */
-/* Prevent Context Menu on Mobile (Optional) */
-/* ═══════════════════════════════════════════════════════ */
-// document.addEventListener('contextmenu', e => e.preventDefault()); // متعطل
-
-/* ═══════════════════════════════════════════════════════ */
-/* Handle Visibility Change (Play sound only when visible) */
-/* ═══════════════════════════════════════════════════════ */
-let isPageVisible = true;
-document.addEventListener('visibilitychange', ()=>{
-    isPageVisible = !document.hidden;
-});
-
-/* ═══════════════════════════════════════════════════════ */
-/* Service Worker (PWA) */
-/* ═══════════════════════════════════════════════════════ */
+// PWA
 if('serviceWorker' in navigator && location.protocol === 'https:'){
     window.addEventListener('load', ()=>{
-        navigator.serviceWorker.register('service-worker.js')
-            .then(reg => console.log('✅ SW Registered'))
-            .catch(err => console.log('SW Error:', err.message));
+        navigator.serviceWorker.register('service-worker.js').catch(()=>{});
     });
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* Install PWA Banner */
-/* ═══════════════════════════════════════════════════════ */
 let deferredPrompt = null;
-
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    showInstallBanner();
 });
 
-function showInstallBanner(){
-    if($id('installBanner')) return;
-    if(localStorage.getItem('admin_install_dismissed') === 'true') return;
-    if(window.matchMedia('(display-mode: standalone)').matches) return;
-    
-    const banner = document.createElement('div');
-    banner.id = 'installBanner';
-    banner.style.cssText = `
-        position:fixed;bottom:20px;left:20px;right:20px;
-        background:linear-gradient(135deg,#8b5cf6,#06b6d4);
-        border-radius:16px;padding:14px 18px;z-index:99999;
-        display:flex;align-items:center;gap:12px;
-        box-shadow:0 15px 40px rgba(139,92,246,.6);
-        transform:translateY(200px);transition:transform .4s;
-        max-width:500px;margin:0 auto;
-    `;
-    banner.innerHTML = `
-        <div style="width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:4px">
-            <img src="./logo.png" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:9px">
-        </div>
-        <div style="flex:1;min-width:0">
-            <div style="font-size:13.5px;font-weight:900;color:#fff;margin-bottom:2px">📱 ثبّت اللوحة على جهازك</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.9);font-weight:600">افتحها من الشاشة الرئيسية</div>
-        </div>
-        <button onclick="installPWA()" style="padding:9px 14px;background:#fff;border:none;border-radius:11px;color:#7c3aed;font-weight:900;font-size:12.5px;cursor:pointer;font-family:'Cairo',sans-serif;flex-shrink:0">
-            <i class="fas fa-download"></i> ثبّت
-        </button>
-        <button onclick="dismissInstall()" style="width:30px;height:30px;border-radius:9px;background:rgba(0,0,0,.2);border:none;color:#fff;cursor:pointer;font-size:12px;flex-shrink:0">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
-    document.body.appendChild(banner);
-    setTimeout(()=>banner.style.transform = 'translateY(0)', 100);
-}
+// Error Handlers
+window.addEventListener('error', (e)=>{ console.error('Global error:', e.message); });
+window.addEventListener('unhandledrejection', (e)=>{ console.error('Unhandled promise:', e.reason); });
 
-function installPWA(){
-    if(!deferredPrompt){ dismissInstall(); return; }
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(choice=>{
-        if(choice.outcome === 'accepted'){
-            showToast('✅ تم التثبيت!','success');
-            dismissInstall();
-        }
-        deferredPrompt = null;
-    });
-}
-
-function dismissInstall(){
-    const b = $id('installBanner');
-    if(b){ b.style.transform = 'translateY(200px)'; setTimeout(()=>b.remove(), 400); }
-    localStorage.setItem('admin_install_dismissed', 'true');
-}
-
-window.addEventListener('appinstalled', ()=>{
-    showToast('🎉 تم تثبيت اللوحة!','success');
-    dismissInstall();
-});
-
-/* ═══════════════════════════════════════════════════════ */
-/* Global Error Handler */
-/* ═══════════════════════════════════════════════════════ */
-window.addEventListener('error', (e)=>{
-    console.error('Global error:', e.message);
-});
-
-window.addEventListener('unhandledrejection', (e)=>{
-    console.error('Unhandled promise:', e.reason);
-});
-
-/* ═══════════════════════════════════════════════════════ */
-/* Load App on Ready */
-/* ═══════════════════════════════════════════════════════ */
+// Load App
 window.addEventListener('load', ()=>{
-    // شغل التطبيق
     initApp();
-    
-    // افتح صفحة الطلبات افتراضياً
     switchPage('registrations');
-    
-    // عرض رسالة ترحيب بعد 1.5 ثانية
     setTimeout(()=>{
         const totalPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
-        if(totalPending > 0){
-            showToast(`📬 عندك ${totalPending} طلب في الانتظار`, 'info');
-        } else {
-            showToast('✅ اللوحة جاهزة', 'success');
-        }
+        if(totalPending > 0){ showToast(`📬 عندك ${totalPending} طلب في الانتظار`, 'info'); }
+        else { showToast('✅ اللوحة جاهزة', 'success'); }
     }, 1500);
 });
 
-/* ═══════════════════════════════════════════════════════ */
-/* Auto-cleanup: remove old expired registrations (30 days) */
-/* ═══════════════════════════════════════════════════════ */
+// Cleanup
 function cleanupOldRegistrations(){
     const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
     Object.values(registrationsCache).forEach(r=>{
@@ -1990,7 +1672,6 @@ function cleanupOldRegistrations(){
         }
     });
 }
-// شغّل التنظيف كل 24 ساعة
 setInterval(cleanupOldRegistrations, 24 * 60 * 60 * 1000);
 </script>
 </body>
