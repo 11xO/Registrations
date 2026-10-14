@@ -2,16 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>لوحة تحكم مشوارك | الأدمن</title>
+<title>مشوارك | لوحة الأدمن</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#8b5cf6">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مشوارك أدمن">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="./logo.png">
 <link rel="icon" type="image/png" href="./logo.png">
+<link rel="apple-touch-icon" href="./logo.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -323,22 +322,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     padding:1px 7px;border-radius:10px;font-size:10px;margin-right:3px;
 }
 
-/* TABLE */
-.table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--glass-border)}
-.data-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px}
-.data-table th{
-    background:rgba(10,15,28,.9);color:var(--text-muted);font-weight:700;
-    padding:12px 8px;text-align:center;font-size:11px;
-    text-transform:uppercase;white-space:nowrap;
-}
-.data-table td{
-    padding:12px 8px;text-align:center;
-    border-bottom:1px solid var(--glass-border);
-    color:#e2e8f0;font-size:12.5px;white-space:nowrap;
-}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:rgba(139,92,246,.05)}
-
 /* TOAST */
 .toast{
     position:fixed;bottom:30px;left:50%;
@@ -467,7 +450,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         </div>
 
         <div class="nav-section-title">🔗 روابط سريعة</div>
-        <a href="./" class="nav-item" style="text-decoration:none">
+        <a href="https://11x0.github.io/Meshwork/" target="_blank" class="nav-item" style="text-decoration:none">
             <i class="fas fa-mobile-alt"></i>
             <span>تطبيق العميل</span>
         </a>
@@ -667,7 +650,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
             <div>🔢 <b>الإصدار:</b> 1.0</div>
             <div>💾 <b>قاعدة البيانات:</b> Firebase</div>
-            <div>🔒 <b>الحماية:</b> اللينك السري</div>
+            <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11x0.github.io/Meshwork/" target="_blank" style="color:#22d3ee">اضغط هنا</a></div>
         </div>
     </div>
 </div>
@@ -771,6 +754,9 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
+// ═══════════════════════════════════════════════════════
+// 🔥 Firebase - نفس المشروع بتاع الزبون
+// ═══════════════════════════════════════════════════════
 const firebaseConfig = {
     apiKey: "AIzaSyAR98tJfqxO0_LZT7GRn-peOqQB1PgP6D4",
     authDomain: "family-4ff2a.firebaseapp.com",
@@ -827,7 +813,7 @@ function closeConfirm(){
     $id('confirmModal').classList.remove('show');
 }
 
-// Auto Approval
+// Auto Approval Settings
 function getAutoApproveMinutes(){ return Number(localStorage.getItem('admin_auto_minutes')) || 5; }
 function isAutoApproveEnabled(){ return localStorage.getItem('admin_auto_enabled') !== 'false'; }
 function isSoundEnabled(){ return localStorage.getItem('admin_sound') !== 'false'; }
@@ -870,6 +856,7 @@ function saveSoundSetting(){
     showToast(toggle.checked ? '🔊 تم تفعيل الإشعار الصوتي' : '🔕 تم إيقاف الإشعار', 'success');
 }
 
+// Sound
 function playNotificationSound(){
     if(!isSoundEnabled()) return;
     const now = Date.now();
@@ -896,6 +883,7 @@ function playNotificationSound(){
 }
 function testSound(){ lastSoundTime = 0; playNotificationSound(); showToast('🔊 اختبار الصوت','info'); }
 
+// Init
 function initApp(){
     loadAreas();
     loadRegistrations();
@@ -911,7 +899,8 @@ function loadAreas(){
     db.ref('areas').on('value', snap=>{
         areasCache = {};
         snap.forEach(c=>{
-            const name = c.val().name;
+            const d = c.val();
+            const name = (typeof d === 'string') ? d : (d && d.name);
             if(name) areasCache[c.key] = name;
         });
         renderAreaFilter();
@@ -929,7 +918,7 @@ function renderAreaFilter(){
             pendingByArea[a] = (pendingByArea[a] || 0) + 1;
         }
     });
-    let html = `<button class="area-chip ${currentAreaFilter==='all'?'active':''}" data-area="all" onclick="filterByArea('all')">
+    let html = `<button class="area-chip ${currentAreaFilter==='all'?'active':''}" onclick="filterByArea('all')">
         <i class="fas fa-globe"></i> كل المناطق
     </button>`;
     Object.values(areasCache).forEach(area=>{
@@ -959,8 +948,8 @@ function renderAreasPage(){
         return;
     }
     const customersByArea = {};
-    Object.values(customersCache).forEach(c => {
-        const a = c.area || 'غير محدد';
+    Object.values(customersCache).forEach(cust => {
+        const a = cust.area || 'غير محدد';
         customersByArea[a] = (customersByArea[a] || 0) + 1;
     });
     let html = '';
@@ -1159,7 +1148,7 @@ function renderRegistrationCard(r){
     </div>`;
 }
 
-// Approve / Reject / Ban / Delete
+// Actions
 function approveRegistration(id){
     const reg = registrationsCache[id]; if(!reg) return;
     const clean = (reg.phone||'').replace(/\D/g,'');
@@ -1342,9 +1331,9 @@ function renderCustomersList(){
     const search = ($id('custSearchInput')?.value||'').toLowerCase().trim();
     let list = Object.values(customersCache);
     if(search){
-        list = list.filter(c =>
-            (c.name||'').toLowerCase().includes(search) ||
-            (c.phone||'').includes(search)
+        list = list.filter(cust =>
+            (cust.name||'').toLowerCase().includes(search) ||
+            (cust.phone||'').includes(search)
         );
     }
     list.sort((a,b)=>(b.registeredAt||0) - (a.registeredAt||0));
@@ -1394,7 +1383,7 @@ function renderCustomersList(){
     c.innerHTML = html;
 }
 
-// Points Edit
+// Points
 function openPointsModal(phone, name){
     pointsTargetPhone = phone;
     const cust = customersCache[phone] || {};
@@ -1474,7 +1463,7 @@ function checkAutoApproval(){
     });
 }
 
-// Timer Refresh
+// Timer
 function startTimerRefreshLoop(){
     if(timerRefreshInterval) clearInterval(timerRefreshInterval);
     timerRefreshInterval = setInterval(()=>{
@@ -1525,7 +1514,7 @@ function switchPage(page){
     window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-// Stats Page
+// Stats
 function renderStats(){
     const all = Object.values(registrationsCache);
     const totalCustomers = Object.keys(customersCache).length;
@@ -1616,7 +1605,7 @@ setInterval(()=>{
     if(dot){ dot.style.opacity = dot.style.opacity === '0.3' ? '1' : '0.3'; }
 }, 1000);
 
-// Keyboard Shortcuts
+// Shortcuts
 document.addEventListener('keydown', (e)=>{
     if((e.ctrlKey || e.metaKey) && e.key === 'k'){
         e.preventDefault();
@@ -1635,24 +1624,11 @@ document.addEventListener('keydown', (e)=>{
     }
 });
 
-// PWA
-if('serviceWorker' in navigator && location.protocol === 'https:'){
-    window.addEventListener('load', ()=>{
-        navigator.serviceWorker.register('service-worker.js').catch(()=>{});
-    });
-}
-
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-});
-
 // Error Handlers
 window.addEventListener('error', (e)=>{ console.error('Global error:', e.message); });
 window.addEventListener('unhandledrejection', (e)=>{ console.error('Unhandled promise:', e.reason); });
 
-// Load App
+// Init on Load
 window.addEventListener('load', ()=>{
     initApp();
     switchPage('registrations');
