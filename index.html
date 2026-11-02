@@ -358,12 +358,17 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 <div class="page" id="page-settings">
     <div class="card">
         <div class="card-title"><i class="fas fa-robot"></i> الموافقة التلقائية</div>
+        <div class="card-subtitle">الإعدادات دي بتتزامن مع تطبيق العميل في الوقت الفعلي</div>
         <div class="toggle-row">
-            <div class="toggle-label"><div>تفعيل الموافقة التلقائية</div><small>الموافقة بعد انتهاء المدة</small></div>
+            <div class="toggle-label"><div>تفعيل الموافقة التلقائية</div><small>الموافقة بعد انتهاء المدة (بدون تدخل يدوي)</small></div>
             <label class="switch"><input type="checkbox" id="settingsAutoToggle" onchange="saveAutoApproveSetting()"><span class="slider-sw"></span></label>
         </div>
         <label class="field-label">⏱️ مدة الانتظار (دقائق)</label>
         <input type="number" id="settingsAutoMinutes" min="1" max="60" onchange="saveAutoApproveSetting()">
+        <div style="font-size:11px;color:var(--text-muted);margin-top:8px;display:flex;align-items:center;gap:6px">
+            <i class="fas fa-info-circle" style="color:#22d3ee"></i>
+            لما تقفل الموافقة التلقائية، شاشة الزبون هتتغير لـ "انتظار المراجعة اليدوية"
+        </div>
     </div>
     <div class="card">
         <div class="card-title"><i class="fas fa-volume-up"></i> الإشعارات</div>
@@ -384,7 +389,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div>
         <div style="font-size:12.5px;color:#cbd5e1;line-height:2">
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
-            <div>🔢 <b>الإصدار:</b> 2.2</div>
+            <div>🔢 <b>الإصدار:</b> 2.3</div>
             <div>💾 <b>قاعدة البيانات:</b> Firebase</div>
             <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11xo.github.io/Meshwark/" target="_blank" style="color:#22d3ee;font-weight:900">https://11xo.github.io/Meshwark/</a></div>
         </div>
@@ -664,85 +669,105 @@ function getAutoApproveMinutes(){ return Number(localStorage.getItem('admin_auto
 function isAutoApproveEnabled(){ return localStorage.getItem('admin_auto_enabled') !== 'false'; }
 function isSoundEnabled(){ return localStorage.getItem('admin_sound') !== 'false'; }
 
+// ✅ تحميل الإعدادات من Firebase (مع fallback لـ localStorage)
 function loadAutoApprovalSettings(){
-    const enabled = isAutoApproveEnabled();
-    const minutes = getAutoApproveMinutes();
-    const sound = isSoundEnabled();
-    
-    // 🔧 نزامن زرارين الموافقة
-    const toggle = $id('autoApproveToggle');
-    if(toggle) toggle.checked = enabled;
-    
-    const settingsToggle = $id('settingsAutoToggle');
-    if(settingsToggle) settingsToggle.checked = enabled;
-    
-    // المدة
-    const minInput = $id('settingsAutoMinutes');
-    if(minInput) minInput.value = minutes;
-    
-    const minDisp = $id('autoMinutesDisplay');
-    if(minDisp) minDisp.innerText = minutes;
-    
-    // الصوت
-    const soundToggle = $id('settingsSoundToggle');
-    if(soundToggle) soundToggle.checked = sound;
-    
-    console.log('⚙️ إعدادات الموافقة:', { enabled, minutes, sound });
-} 
+    db.ref('admin_settings/auto_approval').once('value').then(snap=>{
+        const data = snap.val();
+        let enabled = isAutoApproveEnabled();
+        let minutes = getAutoApproveMinutes();
+
+        if(data){
+            enabled = data.enabled === true;
+            minutes = Number(data.minutes) || 5;
+            localStorage.setItem('admin_auto_enabled', enabled ? 'true' : 'false');
+            localStorage.setItem('admin_auto_minutes', minutes);
+        }
+
+        const sound = isSoundEnabled();
+        const toggle = $id('autoApproveToggle');
+        if(toggle) toggle.checked = enabled;
+        const settingsToggle = $id('settingsAutoToggle');
+        if(settingsToggle) settingsToggle.checked = enabled;
+        const minInput = $id('settingsAutoMinutes');
+        if(minInput) minInput.value = minutes;
+        const minDisp = $id('autoMinutesDisplay');
+        if(minDisp) minDisp.innerText = minutes;
+        const soundToggle = $id('settingsSoundToggle');
+        if(soundToggle) soundToggle.checked = sound;
+
+        console.log('⚙️ إعدادات الموافقة (من Firebase):', { enabled, minutes });
+    }).catch(err=>{
+        console.error('Load settings error:', err);
+        const enabled = isAutoApproveEnabled();
+        const minutes = getAutoApproveMinutes();
+        const sound = isSoundEnabled();
+        const toggle = $id('autoApproveToggle');
+        if(toggle) toggle.checked = enabled;
+        const settingsToggle = $id('settingsAutoToggle');
+        if(settingsToggle) settingsToggle.checked = enabled;
+        const minInput = $id('settingsAutoMinutes');
+        if(minInput) minInput.value = minutes;
+        const minDisp = $id('autoMinutesDisplay');
+        if(minDisp) minDisp.innerText = minutes;
+        const soundToggle = $id('settingsSoundToggle');
+        if(soundToggle) soundToggle.checked = sound;
+    });
+}
+
+// ✅ حفظ الإعدادات في Firebase + localStorage (عشان الزبون يشوفها)
 function saveAutoApproveSetting(){
-    // 🔧 نحدد مين اللي اتغير فعلاً
     const toggle = $id('autoApproveToggle');
     const settingsToggle = $id('settingsAutoToggle');
     const minInput = $id('settingsAutoMinutes');
-    
-    // نأخذ القيمة من الزرار اللي اتضغط فعلاً
-    let enabled = isAutoApproveEnabled(); // القيمة الحالية
+
+    let enabled = isAutoApproveEnabled();
     let minutes = getAutoApproveMinutes();
-    
-    // لو الضغط جاي من صفحة التسجيلات
+
     if(toggle && toggle === document.activeElement){
         enabled = toggle.checked;
-    }
-    // لو الضغط جاي من صفحة الإعدادات
-    else if(settingsToggle && settingsToggle === document.activeElement){
+    } else if(settingsToggle && settingsToggle === document.activeElement){
         enabled = settingsToggle.checked;
-    }
-    // لو مفيش عنصر نشط، نأخذ من الزرارين
-    else if(toggle){
+    } else if(toggle){
         enabled = toggle.checked;
     } else if(settingsToggle){
         enabled = settingsToggle.checked;
     }
-    
-    // المدة من صفحة الإعدادات
+
     if(minInput){
         const m = Number(minInput.value);
         if(m >= 1 && m <= 60) minutes = m;
         else minutes = 5;
         minInput.value = minutes;
     }
-    
-    // نحفظ
+
     localStorage.setItem('admin_auto_enabled', enabled ? 'true' : 'false');
     localStorage.setItem('admin_auto_minutes', minutes);
-    
-    // 🔧 نزامن الزرارين
+
     if(toggle) toggle.checked = enabled;
     if(settingsToggle) settingsToggle.checked = enabled;
-    
-    // نحدث النص
+
     const minDisp = $id('autoMinutesDisplay');
     if(minDisp) minDisp.innerText = minutes;
-    
-    // رسالة تأكيد
+
+    // ✅ حفظ في Firebase عشان تطبيق الزبون يشوفها
+    db.ref('admin_settings/auto_approval').set({
+        enabled: enabled,
+        minutes: minutes,
+        updatedAt: Date.now()
+    }).then(()=>{
+        console.log('✅ تم حفظ الإعدادات في Firebase:', { enabled, minutes });
+    }).catch(err => {
+        console.error('Failed to save settings to Firebase:', err);
+    });
+
     showToast(
         enabled ? `✅ الموافقة التلقائية مفعّلة (${minutes} دقيقة)` : '⏸️ تم إيقاف الموافقة التلقائية',
         enabled ? 'success' : 'info'
     );
-    
-    // 🔧 لو اتفعلت، نشغل الفحص فوراً
+
     if(enabled) setTimeout(checkAutoApproval, 100);
 }
+
 function saveSoundSetting(){
     const toggle = $id('settingsSoundToggle');
     if(!toggle) return;
@@ -946,13 +971,15 @@ function renderRegistrationCard(r){
     };
     const s = statusMap[r.status] || statusMap.pending;
     let timerHtml = '';
-    if(r.status === 'pending'){
+    if(r.status === 'pending' && isAutoApproveEnabled()){
         const elapsed = Date.now() - (r.requestedAt||0);
         const waitMs = getAutoApproveMinutes() * 60 * 1000;
         const remaining = Math.max(0, waitMs - elapsed);
         const mins = Math.floor(remaining / 60000);
         const secs = Math.floor((remaining % 60000) / 1000);
         timerHtml = `<div class="reg-timer"><div><i class="fas fa-clock"></i> متبقي للموافقة التلقائية</div><div class="timer-val" data-start="${r.requestedAt}" data-id="${r.id}">${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}</div></div>`;
+    } else if(r.status === 'pending' && !isAutoApproveEnabled()){
+        timerHtml = `<div class="reg-timer" style="background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.5);color:#60a5fa"><div><i class="fas fa-user-shield"></i> في انتظار المراجعة اليدوية</div></div>`;
     }
     const date = r.requestedAt ? new Date(r.requestedAt) : null;
     const timeStr = date ? date.toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
@@ -1012,20 +1039,14 @@ function approveRegistration(id){
         approvedBy: 'admin'
     }).then(()=>{
         db.ref('approved_users/'+clean).update({
-            name: reg.name,
-            phone: reg.phone,
-            area: reg.area,
+            name: reg.name, phone: reg.phone, area: reg.area,
             address: reg.address || '',
-            approvedAt: Date.now(),
-            source: 'admin'
+            approvedAt: Date.now(), source: 'admin'
         });
         db.ref('customers/'+clean).update({
-            name: reg.name,
-            phone: reg.phone,
-            area: reg.area,
+            name: reg.name, phone: reg.phone, area: reg.area,
             address: reg.address || '',
-            registeredAt: Date.now(),
-            points: 0
+            registeredAt: Date.now(), points: 0
         });
         showToast(`✅ تمت الموافقة على ${reg.name}`,'success');
     }).catch(err=>{
@@ -1403,73 +1424,70 @@ function deleteCustomerCompletely(phone, name){
 
 function startAutoApprovalLoop(){
     if(autoApprovalInterval) clearInterval(autoApprovalInterval);
-    // 🔧 فحص كل 3 ثواني (أسرع)
     autoApprovalInterval = setInterval(checkAutoApproval, 3000);
-    // 🔧 فحص فوري بعد ثانية
     setTimeout(checkAutoApproval, 1000);
     console.log('⏱️ بدء فحص الموافقة التلقائية كل 3 ثواني');
 }
 
+// ✅ فحص الموافقة التلقائية — بيقرأ من Firebase مباشرة عشان ياخد آخر إعدادات
 function checkAutoApproval(){
-    // 🔧 فحص التفعيل
-    if(!isAutoApproveEnabled()) return;
-    
-    const waitMs = getAutoApproveMinutes() * 60 * 1000;
-    const now = Date.now();
-    let processedCount = 0;
-    
-    Object.values(registrationsCache).forEach(r=>{
-        if(r.status !== 'pending') return;
-        
-        const elapsed = now - (r.requestedAt || 0);
-        if(elapsed < waitMs) return; // لسه في وقت الانتظار
-        
-        const clean = (r.phone||'').replace(/\D/g,'');
-        
-        // لو محظور
-        if(blacklistCache[clean]){
-            db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
-            return;
-        }
-        
-        processedCount++;
-        
-        // ✅ موافقة تلقائية
-        db.ref('pending_registrations/'+r.id).update({
-            status: 'approved',
-            approvedAt: now,
-            approvedBy: 'auto_approval',
-            autoApproved: true
-        }).then(()=>{
-            // إنشاء السجلات المرتبطة
-            return Promise.all([
-                db.ref('approved_users/'+clean).update({
-                    name: r.name,
-                    phone: r.phone,
-                    area: r.area,
-                    address: r.address || '',
-                    approvedAt: now,
-                    source: 'auto_approval'
-                }),
-                db.ref('customers/'+clean).update({
-                    name: r.name,
-                    phone: r.phone,
-                    area: r.area,
-                    address: r.address || '',
-                    registeredAt: now,
-                    points: 0
-                })
-            ]);
-        }).then(()=>{
-            showToast(`⚡ موافقة تلقائية: ${r.name}`, 'success');
-        }).catch(err=>{
-            console.error('Auto approval error:', err);
+    db.ref('admin_settings/auto_approval').once('value').then(snap=>{
+        const data = snap.val();
+        const enabled = data ? (data.enabled === true) : isAutoApproveEnabled();
+        const minutes = data ? (Number(data.minutes) || 5) : getAutoApproveMinutes();
+
+        if(!enabled) return;
+
+        const waitMs = minutes * 60 * 1000;
+        const now = Date.now();
+        let processedCount = 0;
+
+        Object.values(registrationsCache).forEach(r=>{
+            if(r.status !== 'pending') return;
+
+            const elapsed = now - (r.requestedAt || 0);
+            if(elapsed < waitMs) return;
+
+            const clean = (r.phone||'').replace(/\D/g,'');
+
+            if(blacklistCache[clean]){
+                db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
+                return;
+            }
+
+            processedCount++;
+
+            db.ref('pending_registrations/'+r.id).update({
+                status: 'approved',
+                approvedAt: now,
+                approvedBy: 'auto_approval',
+                autoApproved: true
+            }).then(()=>{
+                return Promise.all([
+                    db.ref('approved_users/'+clean).update({
+                        name: r.name, phone: r.phone, area: r.area,
+                        address: r.address || '',
+                        approvedAt: now, source: 'auto_approval'
+                    }),
+                    db.ref('customers/'+clean).update({
+                        name: r.name, phone: r.phone, area: r.area,
+                        address: r.address || '',
+                        registeredAt: now, points: 0
+                    })
+                ]);
+            }).then(()=>{
+                showToast(`⚡ موافقة تلقائية: ${r.name}`, 'success');
+            }).catch(err=>{
+                console.error('Auto approval error:', err);
+            });
         });
+
+        if(processedCount > 0){
+            console.log(`⚡ تمت الموافقة على ${processedCount} طلب تلقائياً`);
+        }
+    }).catch(err=>{
+        console.error('checkAutoApproval error:', err);
     });
-    
-    if(processedCount > 0){
-        console.log(`⚡ تمت الموافقة على ${processedCount} طلب تلقائياً`);
-    }
 }
 
 function startTimerRefreshLoop(){
@@ -1617,7 +1635,6 @@ function showLoadingState(){
 function initializeDashboard(){
     console.log('🚀 بدء تحميل لوحة التحكم...');
     showLoadingState();
-    // 🔧 تشغيل مباشر — Firebase هيتصل تلقائياً والبيانات هتوصل لما تكون جاهزة
     updateConnectionIndicator(false);
     initApp();
     switchPage('registrations');
@@ -1628,21 +1645,11 @@ function initializeDashboard(){
     }, 2000);
 }
 
-// 🔧 مراقبة الاتصال في الوقت الفعلي — بتتحدث تلقائياً
+// 🔧 مراقبة الاتصال في الوقت الفعلي
 db.ref('.info/connected').on('value', snap=>{
     const connected = snap.val() === true;
     console.log('🔌 Firebase connection:', connected);
     updateConnectionIndicator(connected);
-    if(!connected){
-        setTimeout(()=>{
-            if($id('liveIndicator')){
-                const el = $id('liveIndicator');
-                if(el.innerHTML.includes('جاري المحاولة')){
-                    el.innerHTML = '<i class="fas fa-circle" style="font-size:8px;color:#ef4444"></i> إعادة محاولة...';
-                }
-            }
-        }, 3000);
-    }
 });
 
 document.addEventListener('keydown', (e)=>{
