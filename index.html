@@ -112,7 +112,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 .reg-info{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
 .reg-avatar{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:900;flex-shrink:0}
 .reg-details{flex:1;min-width:0}
-.reg-name{font-size:15px;font-weight:900;color:#fff;margin-bottom:4px}
+.reg-name{font-size:15px;font-weight:900;color:#fff;margin-bottom:4px;cursor:pointer}
+.reg-name:hover{color:#a78bfa}
 .reg-phone{font-size:13px;color:#22d3ee;font-weight:700;direction:ltr;text-align:right}
 .reg-area{font-size:11.5px;color:var(--text-muted);margin-top:3px;display:flex;align-items:center;gap:5px}
 .reg-area i{color:#fbbf24;font-size:10px}
@@ -142,6 +143,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 .btn-suspend{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
 .btn-unsuspend{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
 .btn-forcelogout{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+.btn-details{background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:none}
 .area-filter{display:flex;gap:8px;overflow-x:auto;padding:10px 0;margin-bottom:15px;scrollbar-width:none;-ms-overflow-style:none}
 .area-filter::-webkit-scrollbar{display:none}
 .area-chip{padding:9px 16px;border-radius:20px;cursor:pointer;background:var(--bg-card);border:1.5px solid var(--glass-border);color:var(--text-soft);font-size:12.5px;font-weight:700;white-space:nowrap;transition:.2s;display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif}
@@ -169,14 +171,45 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 .modal-overlay.show{opacity:1;visibility:visible}
 .center-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);background:linear-gradient(160deg,rgba(30,40,60,.98),rgba(15,23,42,1));border:1.5px solid rgba(139,92,246,.4);border-radius:24px;z-index:5001;width:calc(100% - 40px);max-width:500px;max-height:85vh;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:all .3s;box-shadow:0 30px 60px rgba(0,0,0,.6)}
 .center-modal.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.center-modal.wide{max-width:700px;max-height:92vh}
 .center-modal-header{padding:18px 20px 14px;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;gap:12px}
 .center-modal-icon{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
 .center-modal-title{font-size:16px;font-weight:900;color:#fff}
 .center-modal-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .center-modal-close{margin-right:auto;width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid var(--glass-border);color:var(--text-muted);cursor:pointer;font-size:13px}
 .center-modal-body{padding:16px;overflow-y:auto;flex:1;max-height:70vh}
+.center-modal.wide .center-modal-body{max-height:75vh}
 .app-link-btn{background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff;padding:8px 16px;border-radius:10px;font-size:12.5px;font-weight:900;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(16,185,129,.3)}
 .app-link-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(16,185,129,.4)}
+.area-select-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(10,15,28,.5);border:1.5px solid var(--glass-border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.2s;font-size:13.5px;font-weight:700;color:#fff}
+.area-select-item:hover{background:rgba(139,92,246,.1);border-color:var(--primary);transform:translateY(-1px)}
+.area-select-item i:first-child{color:#fbbf24;font-size:16px}
+/* تفاصيل العميل */
+.customer-details-header{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(6,182,212,.1));border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;border:1px solid rgba(139,92,246,.3)}
+.customer-details-avatar{width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:900;margin:0 auto 12px;box-shadow:0 10px 25px rgba(139,92,246,.4)}
+.customer-details-name{font-size:20px;font-weight:900;color:#fff;margin-bottom:4px}
+.customer-details-phone{font-size:14px;color:#22d3ee;font-weight:700;direction:ltr;margin-bottom:8px}
+.customer-details-badges{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.customer-details-badge{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:900;display:inline-flex;align-items:center;gap:5px}
+.customer-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.customer-stat{background:rgba(10,15,28,.5);border-radius:12px;padding:10px;text-align:center;border:1px solid var(--glass-border)}
+.customer-stat-label{font-size:10px;font-weight:700;margin-bottom:4px}
+.customer-stat-value{font-size:20px;font-weight:900;color:#fff}
+.customer-info-box{background:rgba(10,15,28,.5);border:1px solid var(--glass-border);border-radius:14px;padding:14px;margin-bottom:16px}
+.customer-info-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.customer-info-row{display:flex;justify-content:space-between;font-size:12px;color:#cbd5e1;padding:4px 0;gap:10px}
+.customer-info-row b{color:#fff}
+.customer-section-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.customer-order-item{background:rgba(10,15,28,.5);border:1px solid var(--glass-border);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.customer-reward-item{border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.customer-reward-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.customer-reward-icon{font-size:20px;margin-left:4px}
+.customer-reward-info{flex:1;min-width:0}
+.customer-reward-title{font-size:12.5px;font-weight:900}
+.customer-reward-sub{font-size:10.5px;color:#cbd5e1;margin-top:2px}
+.customer-reward-date{font-size:10px;color:#94a3b8;margin-top:3px}
+.customer-reward-cost{background:rgba(245,158,11,.2);color:#fbbf24;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:900;white-space:nowrap}
+.customer-actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;border-top:1px solid var(--glass-border);padding-top:14px;margin-top:14px}
 @media(max-width:900px){
     .sidebar{transform:translateX(100%)}
     .sidebar.open{transform:translateX(0)}
@@ -186,6 +219,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     .topbar h1{font-size:19px}
     .topbar h1 i{font-size:18px}
     .reg-actions button,.reg-actions a{min-width:70px;font-size:10.5px;padding:8px 8px}
+    .customer-stats-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head><body>
@@ -304,7 +338,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 <div class="page" id="page-customers">
     <div class="card">
         <div class="card-title"><i class="fas fa-users"></i> العملاء المعتمدين</div>
-        <div class="card-subtitle">كل اللي تمت الموافقة عليهم — تحكم كامل في بياناتهم وحالتهم</div>
+        <div class="card-subtitle">كل اللي تمت الموافقة عليهم — اضغط على الاسم لعرض كل التفاصيل</div>
         <div style="margin-bottom:14px">
             <input type="text" id="custSearchInput" placeholder="🔍 ابحث بالاسم أو الرقم..." oninput="renderCustomersList()">
         </div>
@@ -389,7 +423,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div>
         <div style="font-size:12.5px;color:#cbd5e1;line-height:2">
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
-            <div>🔢 <b>الإصدار:</b> 2.3</div>
+            <div>🔢 <b>الإصدار:</b> 2.4</div>
             <div>💾 <b>قاعدة البيانات:</b> Firebase</div>
             <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11xo.github.io/Meshwark/" target="_blank" style="color:#22d3ee;font-weight:900">https://11xo.github.io/Meshwark/</a></div>
         </div>
@@ -398,6 +432,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 </main>
 </div>
 
+<!-- Modal رفض -->
 <div class="modal-overlay" id="rejectOverlay" onclick="closeRejectModal()"></div>
 <div class="center-modal" id="rejectModal">
     <div class="center-modal-header">
@@ -412,6 +447,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal حظر -->
 <div class="modal-overlay" id="banOverlay" onclick="closeBanModal()"></div>
 <div class="center-modal" id="banModal">
     <div class="center-modal-header">
@@ -430,6 +466,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal تأكيد -->
 <div class="modal-overlay" id="confirmOverlay" onclick="closeConfirm()"></div>
 <div class="center-modal" id="confirmModal" style="max-width:420px">
     <div class="center-modal-body" style="text-align:center;padding:30px 20px">
@@ -443,6 +480,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal نقاط -->
 <div class="modal-overlay" id="pointsOverlay" onclick="closePointsModal()"></div>
 <div class="center-modal" id="pointsModal" style="max-width:420px">
     <div class="center-modal-header">
@@ -462,6 +500,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal تعديل عميل -->
 <div class="modal-overlay" id="editCustOverlay" onclick="closeEditCustModal()"></div>
 <div class="center-modal" id="editCustModal">
     <div class="center-modal-header">
@@ -482,6 +521,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal تعليق -->
 <div class="modal-overlay" id="suspendOverlay" onclick="closeSuspendModal()"></div>
 <div class="center-modal" id="suspendModal">
     <div class="center-modal-header">
@@ -499,6 +539,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal طرد -->
 <div class="modal-overlay" id="forceLogoutOverlay" onclick="closeForceLogoutModal()"></div>
 <div class="center-modal" id="forceLogoutModal">
     <div class="center-modal-header">
@@ -516,6 +557,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
+<!-- Modal إشعار -->
 <div class="modal-overlay" id="notifOverlay" onclick="closeNotifModal()"></div>
 <div class="center-modal" id="notifModal">
     <div class="center-modal-header">
@@ -536,6 +578,38 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
             <option value="error">❌ خطأ/تنبيه</option>
         </select>
         <button class="btn btn-primary" style="width:100%;margin-top:15px" onclick="confirmSendNotification()"><i class="fas fa-paper-plane"></i> إرسال الإشعار</button>
+    </div>
+</div>
+
+<!-- Modal اختيار المنطقة عند الموافقة -->
+<div class="modal-overlay" id="areaSelectOverlay" onclick="closeAreaSelectModal()"></div>
+<div class="center-modal" id="areaSelectModal">
+    <div class="center-modal-header">
+        <div class="center-modal-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><i class="fas fa-map-marker-alt"></i></div>
+        <div><div class="center-modal-title">اختر منطقة العميل</div><div class="center-modal-sub" id="areaSelectSub">-</div></div>
+        <button class="center-modal-close" onclick="closeAreaSelectModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="center-modal-body">
+        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:12px;font-size:12px;color:#fbbf24;margin-bottom:15px;line-height:1.7">
+            ⚠️ الزبون مسجلش منطقته — اختر منطقه من القائمة عشان تكمل الموافقة
+        </div>
+        <div id="areaSelectList"></div>
+    </div>
+</div>
+
+<!-- صفحة تفاصيل العميل -->
+<div class="modal-overlay" id="customerDetailsOverlay" onclick="closeCustomerDetails()"></div>
+<div class="center-modal wide" id="customerDetailsModal">
+    <div class="center-modal-header" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(6,182,212,.1))">
+        <div class="center-modal-icon" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)"><i class="fas fa-user-circle"></i></div>
+        <div>
+            <div class="center-modal-title">تفاصيل العميل</div>
+            <div class="center-modal-sub" id="customerDetailsSub">-</div>
+        </div>
+        <button class="center-modal-close" onclick="closeCustomerDetails()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="center-modal-body" id="customerDetailsBody">
+        <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
     </div>
 </div>
 
@@ -568,6 +642,7 @@ let editCustTargetPhone = null;
 let suspendTargetPhone = null;
 let forceLogoutTargetPhone = null;
 let notifTargetPhone = null;
+let areaSelectTargetId = null;
 
 function $id(id){ return document.getElementById(id); }
 
@@ -669,7 +744,6 @@ function getAutoApproveMinutes(){ return Number(localStorage.getItem('admin_auto
 function isAutoApproveEnabled(){ return localStorage.getItem('admin_auto_enabled') !== 'false'; }
 function isSoundEnabled(){ return localStorage.getItem('admin_sound') !== 'false'; }
 
-// ✅ تحميل الإعدادات من Firebase (مع fallback لـ localStorage)
 function loadAutoApprovalSettings(){
     db.ref('admin_settings/auto_approval').once('value').then(snap=>{
         const data = snap.val();
@@ -714,7 +788,6 @@ function loadAutoApprovalSettings(){
     });
 }
 
-// ✅ حفظ الإعدادات في Firebase + localStorage (عشان الزبون يشوفها)
 function saveAutoApproveSetting(){
     const toggle = $id('autoApproveToggle');
     const settingsToggle = $id('settingsAutoToggle');
@@ -749,7 +822,6 @@ function saveAutoApproveSetting(){
     const minDisp = $id('autoMinutesDisplay');
     if(minDisp) minDisp.innerText = minutes;
 
-    // ✅ حفظ في Firebase عشان تطبيق الزبون يشوفها
     db.ref('admin_settings/auto_approval').set({
         enabled: enabled,
         minutes: minutes,
@@ -983,6 +1055,7 @@ function renderRegistrationCard(r){
     }
     const date = r.requestedAt ? new Date(r.requestedAt) : null;
     const timeStr = date ? date.toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
+
     let actions = '';
     if(r.status === 'pending'){
         actions = `
@@ -1007,12 +1080,15 @@ function renderRegistrationCard(r){
             <button class="btn-delete" onclick="deleteRegistration('${r.id}')"><i class="fas fa-trash"></i></button>
         `;
     }
+
+    const detailsBtn = `<button class="btn-details" style="width:100%;margin-top:8px;padding:10px;border-radius:10px;font-weight:900;font-size:12px;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation();openCustomerDetails('${r.phone}')"><i class="fas fa-eye"></i> 👁️ عرض كل تفاصيل ${r.name}</button>`;
+
     return `<div class="reg-card status-${r.status}">
         <div class="reg-header">
             <div class="reg-info">
                 <div class="reg-avatar">${(r.name||'?').charAt(0).toUpperCase()}</div>
                 <div class="reg-details">
-                    <div class="reg-name">${r.name||'بدون اسم'}</div>
+                    <div class="reg-name" onclick="openCustomerDetails('${r.phone}')">${r.name||'بدون اسم'}</div>
                     <div class="reg-phone">📱 ${r.phone||'-'}</div>
                     <div class="reg-area"><i class="fas fa-map-marker-alt"></i> ${r.area||'-'}</div>
                     <div class="reg-address"><i class="fas fa-home"></i> ${r.address||'بدون عنوان'}</div>
@@ -1023,6 +1099,7 @@ function renderRegistrationCard(r){
         </div>
         ${timerHtml}
         <div class="reg-actions">${actions}</div>
+        ${detailsBtn}
     </div>`;
 }
 
@@ -1033,18 +1110,26 @@ function approveRegistration(id){
         showToast('⚠️ الرقم ده محظور!','error');
         return;
     }
+    completeApproval(id, reg.area || '');
+}
+
+function completeApproval(id, area){
+    const reg = registrationsCache[id]; if(!reg) return;
+    const clean = (reg.phone||'').replace(/\D/g,'');
+
     db.ref('pending_registrations/'+id).update({
         status: 'approved',
+        area: area,
         approvedAt: Date.now(),
         approvedBy: 'admin'
     }).then(()=>{
         db.ref('approved_users/'+clean).update({
-            name: reg.name, phone: reg.phone, area: reg.area,
+            name: reg.name, phone: reg.phone, area: area,
             address: reg.address || '',
             approvedAt: Date.now(), source: 'admin'
         });
         db.ref('customers/'+clean).update({
-            name: reg.name, phone: reg.phone, area: reg.area,
+            name: reg.name, phone: reg.phone, area: area,
             address: reg.address || '',
             registeredAt: Date.now(), points: 0
         });
@@ -1188,6 +1273,53 @@ function loadCustomers(){
     }, err=>{
         console.error('Load customers error:', err);
     });
+}
+
+// ✅ اختيار المنطقة عند الموافقة
+function openAreaSelectModal(id){
+    areaSelectTargetId = id;
+    const reg = registrationsCache[id];
+    const modal = $id('areaSelectModal');
+    const overlay = $id('areaSelectOverlay');
+    const sub = $id('areaSelectSub');
+    const list = $id('areaSelectList');
+
+    if(sub) sub.innerText = `${reg.name} - ${reg.phone}`;
+
+    const areas = Object.values(areasCache);
+    if(areas.length === 0){
+        list.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-map"></i><p>مفيش مناطق مسجلة في النظام</p></div>';
+    } else {
+        let html = '';
+        areas.forEach(a=>{
+            html += `<div class="area-select-item" onclick="selectAreaForApproval('${a.replace(/'/g,"\\'")}')">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${a}</span>
+                <i class="fas fa-chevron-left" style="margin-right:auto;color:#64748b"></i>
+            </div>`;
+        });
+        list.innerHTML = html;
+    }
+
+    if(overlay) overlay.classList.add('show');
+    if(modal) modal.classList.add('show');
+}
+
+function closeAreaSelectModal(){
+    const modal = $id('areaSelectModal');
+    const overlay = $id('areaSelectOverlay');
+    if(modal) modal.classList.remove('show');
+    if(overlay) overlay.classList.remove('show');
+    areaSelectTargetId = null;
+}
+
+function selectAreaForApproval(area){
+    if(!areaSelectTargetId) return;
+    const id = areaSelectTargetId;
+    closeAreaSelectModal();
+    showConfirm('fa-check', 'تأكيد الموافقة', `المنطقة المختارة: <b>${area}</b><br>متأكد من الموافقة على العميل؟`, ()=>{
+        completeApproval(id, area);
+    });
 }function renderCustomersList(){
     const c = $id('customersListContainer'); if(!c) return;
     const search = ($id('custSearchInput')?.value||'').toLowerCase().trim();
@@ -1210,7 +1342,7 @@ function loadCustomers(){
                 <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
                     <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:900;flex-shrink:0">${(cust.name||'?').charAt(0).toUpperCase()}</div>
                     <div style="flex:1;min-width:0">
-                        <div style="font-size:14px;font-weight:900;color:#fff">${cust.name||'بدون اسم'} ${isSuspended?'<span style="color:#fbbf24;font-size:10.5px;margin-right:6px">⏸️ معلق</span>':''}</div>
+                        <div style="font-size:14px;font-weight:900;color:#fff;cursor:pointer" onclick="openCustomerDetails('${cust.phone}')">${cust.name||'بدون اسم'} ${isSuspended?'<span style="color:#fbbf24;font-size:10.5px;margin-right:6px">⏸️ معلق</span>':''} <i class="fas fa-external-link-alt" style="font-size:10px;color:#64748b;margin-right:4px"></i></div>
                         <div style="font-size:12px;color:#22d3ee;font-weight:700;direction:ltr;text-align:right;margin-top:2px">📱 ${cust.phone}</div>
                         <div style="font-size:11px;color:var(--text-muted);margin-top:3px"><i class="fas fa-map-marker-alt" style="color:#fbbf24"></i> ${cust.area||'-'} • 🕐 ${date}</div>
                         ${cust.address?`<div style="font-size:10.5px;color:#94a3b8;margin-top:2px"><i class="fas fa-home" style="color:#10b981"></i> ${cust.address}</div>`:''}
@@ -1222,18 +1354,254 @@ function loadCustomers(){
                 </div>
             </div>
             <div style="display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap">
+                <button class="btn btn-sm" style="flex:1;min-width:90px;background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:none;font-weight:900" onclick="openCustomerDetails('${cust.phone}')"><i class="fas fa-eye"></i> 👁️ التفاصيل</button>
                 <button class="btn btn-sm btn-edit" style="flex:1;min-width:90px" onclick="openEditCustModal('${cust.phone}')"><i class="fas fa-user-edit"></i> تعديل</button>
                 <button class="btn btn-sm btn-notify" style="flex:1;min-width:90px" onclick="openNotifModal('${cust.phone}','${cust.name}')"><i class="fas fa-bell"></i> إشعار</button>
-                <button class="btn btn-sm" style="flex:1;min-width:90px;background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)" onclick="openPointsModal('${cust.phone}','${cust.name}')"><i class="fas fa-coins"></i> نقاط</button>
                 <a href="https://wa.me/2${cust.phone}" target="_blank" class="btn btn-sm" style="flex:1;min-width:90px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;text-decoration:none"><i class="fab fa-whatsapp"></i> واتساب</a>
-                ${isSuspended ? `<button class="btn btn-sm btn-unsuspend" style="flex:1;min-width:90px" onclick="unsuspendCustomer('${cust.phone}')"><i class="fas fa-play"></i> فك التعليق</button>` : `<button class="btn btn-sm btn-suspend" style="flex:1;min-width:90px" onclick="openSuspendModal('${cust.phone}','${cust.name}')"><i class="fas fa-pause-circle"></i> تعليق</button>`}
-                <button class="btn btn-sm btn-forcelogout" style="flex:1;min-width:90px" onclick="openForceLogoutModal('${cust.phone}','${cust.name}')"><i class="fas fa-sign-out-alt"></i> طرد</button>
-                <button class="btn btn-sm" style="flex:1;min-width:90px;background:rgba(100,116,139,.15);color:#cbd5e1;border:1px solid rgba(100,116,139,.3)" onclick="openBanModal('${cust.phone}','','${cust.name}')"><i class="fas fa-user-slash"></i> حظر</button>
-                <button class="btn btn-sm" style="flex:1;min-width:90px;background:rgba(220,38,38,.25);color:#fca5a5;border:1px solid rgba(220,38,38,.5)" onclick="deleteCustomerCompletely('${cust.phone}','${cust.name}')"><i class="fas fa-trash-alt"></i> حذف نهائي</button>
             </div>
         </div>`;
     });
     c.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// ✅ صفحة تفاصيل العميل الكاملة
+// ═══════════════════════════════════════════════════════
+function openCustomerDetails(phone){
+    if(!phone) return;
+    const clean = phone.replace(/\D/g,'');
+    $id('customerDetailsSub').innerText = phone;
+    $id('customerDetailsBody').innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin" style="color:#8b5cf6"></i><p>جاري التحميل...</p></div>';
+    $id('customerDetailsOverlay').classList.add('show');
+    $id('customerDetailsModal').classList.add('show');
+
+    Promise.all([
+        db.ref('customers/'+phone).once('value'),
+        db.ref('approved_users/'+phone).once('value'),
+        db.ref('users_points/'+phone).once('value'),
+        db.ref('user_notifications/'+phone).once('value'),
+        db.ref('orders').orderByChild('phone').equalTo(phone).once('value'),
+        db.ref('users_challenges/'+clean).once('value'),
+        db.ref('users_invites/'+clean).once('value'),
+        db.ref('blacklist/'+clean).once('value'),
+        db.ref('rewards_history/'+clean).once('value')
+    ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap])=>{
+        const cust = custSnap.val() || {};
+        const approved = approvedSnap.val() || {};
+        const points = pointsSnap.val() || 0;
+        const notifications = notifSnap.val() || {};
+        const blacklist = blacklistSnap.val();
+        const rewardsHistory = rewardsSnap.val() || {};
+
+        // تجميع الطلبات
+        const orders = [];
+        ordersSnap.forEach(c=>{
+            const o = c.val();
+            orders.push({ id: c.key, ...o });
+        });
+        orders.sort((a,b)=>(b.time||0) - (a.time||0));
+
+        // إحصائيات
+        const totalOrders = orders.length;
+        const completedOrders = orders.filter(o=>o.status === 'completed').length;
+        const cancelledOrders = orders.filter(o=>o.status === 'cancelled').length;
+        const activeOrders = orders.filter(o=>o.status === 'ready_for_driver' || o.status === 'active').length;
+        const totalSpent = orders.filter(o=>o.status === 'completed').reduce((sum,o)=>sum + (Number(o.price)||0), 0);
+        const pointsFromOrders = orders.reduce((sum,o)=>sum + (Number(o.pointsEarned)||0), 0);
+
+        // الإشعارات
+        const notifList = Object.keys(notifications).map(k=>({ id:k, ...notifications[k] }));
+        notifList.sort((a,b)=>(b.sentAt||0) - (a.sentAt||0));
+
+        // المكافآت
+        const rewardsList = Object.keys(rewardsHistory).map(k=>({ id:k, ...rewardsHistory[k] }));
+        rewardsList.sort((a,b)=>(b.usedAt||0) - (a.usedAt||0));
+        const totalRedeemed = rewardsList.reduce((sum,r)=>sum + (Number(r.cost)||0), 0);
+
+        // التاريخ
+        const regDate = cust.registeredAt ? new Date(cust.registeredAt).toLocaleString('ar-EG') : 'غير محدد';
+        const lastLogin = approved.lastLogin ? new Date(approved.lastLogin).toLocaleString('ar-EG') : 'غير محدد';
+
+        // التحدي
+        const challenges = challengesSnap.val() || {};
+        const weekKeys = Object.keys(challenges).sort().reverse();
+        const currentWeek = weekKeys[0] ? challenges[weekKeys[0]] : null;
+
+        // الدعوات
+        const invites = invitesSnap.val();
+
+        let html = `
+            <!-- بيانات أساسية -->
+            <div class="customer-details-header">
+                <div class="customer-details-avatar">${(cust.name||'?').charAt(0).toUpperCase()}</div>
+                <div class="customer-details-name">${cust.name||'بدون اسم'}</div>
+                <div class="customer-details-phone">📱 ${cust.phone||phone}</div>
+                <div class="customer-details-badges">
+                    <span class="customer-details-badge" style="background:rgba(139,92,246,.2);color:#a78bfa;border:1px solid rgba(139,92,246,.4)">
+                        <i class="fas fa-map-marker-alt"></i> ${cust.area||'-'}
+                    </span>
+                    ${cust.isSuspended ? `<span class="customer-details-badge" style="background:rgba(245,158,11,.2);color:#fbbf24;border:1px solid rgba(245,158,11,.4)">⏸️ معلق</span>` : ''}
+                    ${blacklist ? `<span class="customer-details-badge" style="background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.4)">🚫 محظور</span>` : ''}
+                </div>
+                ${cust.address?`<div style="margin-top:12px;font-size:12px;color:#cbd5e1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:8px 12px"><i class="fas fa-home" style="color:#10b981"></i> ${cust.address}</div>`:`<div style="margin-top:12px;font-size:11px;color:#fbbf24"><i class="fas fa-exclamation-triangle"></i> مفيش عنوان محفوظ</div>`}
+            </div>
+
+            <!-- إحصائيات سريعة -->
+            <div class="customer-stats-grid">
+                <div class="customer-stat" style="border-color:rgba(139,92,246,.35)">
+                    <div class="customer-stat-label" style="color:#a78bfa">الطلبات</div>
+                    <div class="customer-stat-value">${totalOrders}</div>
+                </div>
+                <div class="customer-stat" style="border-color:rgba(245,158,11,.35)">
+                    <div class="customer-stat-label" style="color:#fbbf24">النقاط</div>
+                    <div class="customer-stat-value" style="color:#fbbf24">${points}</div>
+                </div>
+                <div class="customer-stat" style="border-color:rgba(16,185,129,.35)">
+                    <div class="customer-stat-label" style="color:#34d399">مكتمل</div>
+                    <div class="customer-stat-value" style="color:#34d399">${completedOrders}</div>
+                </div>
+                <div class="customer-stat" style="border-color:rgba(6,182,212,.35)">
+                    <div class="customer-stat-label" style="color:#22d3ee">إجمالي</div>
+                    <div class="customer-stat-value" style="color:#10b981">${totalSpent} ج</div>
+                </div>
+            </div>
+
+            <!-- معلومات -->
+            <div class="customer-info-box">
+                <div class="customer-info-title"><i class="fas fa-info-circle" style="color:#a78bfa"></i> معلومات</div>
+                <div class="customer-info-row"><span>📅 تاريخ التسجيل:</span><b>${regDate}</b></div>
+                <div class="customer-info-row"><span>🔐 آخر دخول:</span><b>${lastLogin}</b></div>
+                <div class="customer-info-row"><span>🟢 طلبات نشطة:</span><b style="color:#fbbf24">${activeOrders}</b></div>
+                <div class="customer-info-row"><span>❌ طلبات ملغية:</span><b style="color:#fca5a5">${cancelledOrders}</b></div>
+                <div class="customer-info-row"><span>⭐ نقاط من الطلبات:</span><b style="color:#fbbf24">${pointsFromOrders}</b></div>
+            </div>
+
+            ${currentWeek ? `
+            <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:14px;padding:14px;margin-bottom:16px">
+                <div style="font-size:13px;font-weight:900;color:#fbbf24;margin-bottom:8px"><i class="fas fa-trophy"></i> تحدي الأسبوع</div>
+                <div style="font-size:12px;color:#cbd5e1">طلبات الأسبوع: <b style="color:#fff">${currentWeek.ordersCount || 0}</b> ${currentWeek.completed ? '✅ مكتمل' : ''}</div>
+            </div>` : ''}
+
+            <!-- سجل المكافآت -->
+            ${rewardsList.length > 0 ? `
+            <div style="margin-bottom:16px">
+                <div class="customer-section-title">
+                    <i class="fas fa-gift" style="color:#fbbf24"></i> سجل المكافآت (${rewardsList.length}) — إجمالي ${totalRedeemed} نقطة مستخدمة
+                </div>
+                ${rewardsList.slice(0, 20).map(r=>{
+                    const typeIcons = { 'fakka': '🎫', 'delivery': '🛵', 'discount': '🏷️' };
+                    const typeColors = {
+                        'fakka': { bg:'rgba(244,63,94,.1)', border:'rgba(244,63,94,.3)', color:'#f43f5e' },
+                        'delivery': { bg:'rgba(16,185,129,.1)', border:'rgba(16,185,129,.3)', color:'#34d399' },
+                        'discount': { bg:'rgba(245,158,11,.1)', border:'rgba(245,158,11,.3)', color:'#fbbf24' }
+                    };
+                    const c = typeColors[r.type] || typeColors.discount;
+                    const date = r.usedAt ? new Date(r.usedAt).toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
+                    return `<div class="customer-reward-item" style="background:${c.bg};border:1px solid ${c.border}">
+                        <div class="customer-reward-row">
+                            <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+                                <span class="customer-reward-icon">${typeIcons[r.type] || '🎁'}</span>
+                                <div class="customer-reward-info">
+                                    <div class="customer-reward-title" style="color:${c.color}">${r.typeName || r.type}</div>
+                                    ${r.cardCode ? `<div class="customer-reward-sub" style="font-family:monospace">كود: ${r.cardCode}</div>` : ''}
+                                    ${r.discountValue ? `<div class="customer-reward-sub">خصم: ${r.discountValue} ج</div>` : ''}
+                                    <div class="customer-reward-date">${date}</div>
+                                </div>
+                            </div>
+                            <span class="customer-reward-cost">-${r.cost} ⭐</span>
+                        </div>
+                    </div>`;
+                }).join('')}
+                ${rewardsList.length > 20 ? `<div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:8px">+ ${rewardsList.length - 20} سجل أقدم</div>` : ''}
+            </div>` : `
+            <div style="background:rgba(100,116,139,.1);border:1px solid rgba(100,116,139,.3);border-radius:14px;padding:14px;margin-bottom:16px;text-align:center">
+                <div style="font-size:12px;color:#94a3b8"><i class="fas fa-gift"></i> لم يستخدم أي مكافآت بعد</div>
+            </div>`}
+
+            <!-- الطلبات -->
+            <div style="margin-bottom:16px">
+                <div class="customer-section-title"><i class="fas fa-receipt" style="color:#22d3ee"></i> كل الطلبات (${orders.length})</div>
+                ${orders.length === 0 ? '<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px">لا توجد طلبات</div>' :
+                orders.slice(0, 20).map(o=>{
+                    const statusMap = {
+                        'ready_for_driver': { text:'في انتظار', color:'#fbbf24' },
+                        'active': { text:'نشط', color:'#a78bfa' },
+                        'completed': { text:'مكتمل', color:'#34d399' },
+                        'cancelled': { text:'ملغي', color:'#fca5a5' }
+                    };
+                    const s = statusMap[o.status] || { text:o.status, color:'#94a3b8' };
+                    const date = o.time ? new Date(o.time).toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
+                    return `<div class="customer-order-item">
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:12.5px;font-weight:900;color:#fff">${o.type||'طلب'}</div>
+                            <div style="font-size:10.5px;color:#94a3b8;margin-top:2px">${date} • ${o.price||0} ج</div>
+                        </div>
+                        <span style="padding:3px 10px;border-radius:10px;font-size:10px;font-weight:900;background:${s.color}22;color:${s.color};border:1px solid ${s.color}55;white-space:nowrap">${s.text}</span>
+                    </div>`;
+                }).join('')}
+                ${orders.length > 20 ? `<div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:8px">+ ${orders.length - 20} طلب أقدم</div>` : ''}
+            </div>
+
+            <!-- الإشعارات -->
+            ${notifList.length > 0 ? `
+            <div style="margin-bottom:16px">
+                <div class="customer-section-title"><i class="fas fa-bell" style="color:#22d3ee"></i> الإشعارات (${notifList.length})</div>
+                ${notifList.slice(0, 5).map(n=>{
+                    const date = n.sentAt ? new Date(n.sentAt).toLocaleDateString('ar-EG') : '';
+                    return `<div style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:8px 10px;margin-bottom:6px">
+                        <div style="font-size:11.5px;font-weight:900;color:#22d3ee">${n.title}</div>
+                        <div style="font-size:10.5px;color:#cbd5e1;margin-top:2px">${n.body}</div>
+                        <div style="font-size:9.5px;color:#64748b;margin-top:3px">${date} ${n.read?'✓ مقروء':'• غير مقروء'}</div>
+                    </div>`;
+                }).join('')}
+            </div>` : ''}
+
+            ${invites ? `
+            <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:14px;padding:12px;margin-bottom:16px">
+                <div style="font-size:12px;font-weight:900;color:#34d399;margin-bottom:6px"><i class="fas fa-user-plus"></i> كود الدعوة</div>
+                <div style="font-size:11px;color:#cbd5e1">استخدم كود: <b style="color:#fff">${invites.code||'-'}</b></div>
+            </div>` : ''}
+
+            <!-- أزرار التحكم -->
+            <div class="customer-actions-grid">
+                <button class="btn" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openEditCustModal('${phone}'),300)">
+                    <i class="fas fa-user-edit"></i> تعديل البيانات
+                </button>
+                <button class="btn" style="background:linear-gradient(135deg,#06b6d4,#0891b2);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openNotifModal('${phone}','${cust.name}'),300)">
+                    <i class="fas fa-bell"></i> إرسال إشعار
+                </button>
+                <button class="btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openPointsModal('${phone}','${cust.name}'),300)">
+                    <i class="fas fa-coins"></i> تعديل النقاط
+                </button>
+                <a href="https://wa.me/2${phone}" target="_blank" class="btn" style="background:linear-gradient(135deg,#25D366,#128C7E);padding:10px;font-size:12px;text-decoration:none;color:#fff">
+                    <i class="fab fa-whatsapp"></i> واتساب
+                </a>
+                ${cust.isSuspended ?
+                    `<button class="btn" style="background:linear-gradient(135deg,#10b981,#059669);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>unsuspendCustomer('${phone}'),300)"><i class="fas fa-play"></i> فك التعليق</button>` :
+                    `<button class="btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openSuspendModal('${phone}','${cust.name}'),300)"><i class="fas fa-pause-circle"></i> تعليق</button>`
+                }
+                <button class="btn" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openForceLogoutModal('${phone}','${cust.name}'),300)">
+                    <i class="fas fa-sign-out-alt"></i> طرد
+                </button>
+                <button class="btn" style="background:linear-gradient(135deg,#475569,#334155);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openBanModal('${phone}','','${cust.name}'),300)">
+                    <i class="fas fa-user-slash"></i> حظر
+                </button>
+                <button class="btn" style="background:rgba(220,38,38,.3);border:1px solid rgba(220,38,38,.5);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>deleteCustomerCompletely('${phone}','${cust.name}'),300)">
+                    <i class="fas fa-trash-alt"></i> حذف نهائي
+                </button>
+            </div>
+        `;
+
+        $id('customerDetailsBody').innerHTML = html;
+    }).catch(err=>{
+        console.error('Error loading customer details:', err);
+        $id('customerDetailsBody').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i><p>حدث خطأ في تحميل البيانات</p></div>';
+    });
+}
+
+function closeCustomerDetails(){
+    $id('customerDetailsOverlay').classList.remove('show');
+    $id('customerDetailsModal').classList.remove('show');
 }
 
 function openPointsModal(phone, name){
@@ -1398,14 +1766,15 @@ function confirmSendNotification(){
 
 function deleteCustomerCompletely(phone, name){
     showConfirm('fa-trash-alt','حذف العميل نهائياً',
-        `⚠️ هيتم حذف <b>${name}</b> نهائياً من:<br>• العملاء<br>• المستخدمين المعتمدين<br>• النقاط<br>• التسجيلات<br>• الإشعارات<br><br>هل أنت متأكد؟`,
+        `⚠️ هيتم حذف <b>${name}</b> نهائياً من:<br>• العملاء<br>• المستخدمين المعتمدين<br>• النقاط<br>• التسجيلات<br>• الإشعارات<br>• سجل المكافآت<br><br>هل أنت متأكد؟`,
         ()=>{
             const promises = [
                 db.ref('customers/'+phone).remove(),
                 db.ref('approved_users/'+phone).remove(),
                 db.ref('users_points/'+phone).remove(),
                 db.ref('user_notifications/'+phone).remove(),
-                db.ref('users_challenges/'+phone).remove()
+                db.ref('users_challenges/'+phone).remove(),
+                db.ref('rewards_history/'+phone).remove()
             ];
             db.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
                 snap.forEach(c=>{
@@ -1429,7 +1798,6 @@ function startAutoApprovalLoop(){
     console.log('⏱️ بدء فحص الموافقة التلقائية كل 3 ثواني');
 }
 
-// ✅ فحص الموافقة التلقائية — بيقرأ من Firebase مباشرة عشان ياخد آخر إعدادات
 function checkAutoApproval(){
     db.ref('admin_settings/auto_approval').once('value').then(snap=>{
         const data = snap.val();
@@ -1620,7 +1988,7 @@ function renderStatsRecent(){
 }
 
 // ═══════════════════════════════════════════════════════
-// 🚀 INIT - تشغيل اللوحة مع فحص مرن للاتصال
+// 🚀 INIT - تشغيل اللوحة
 // ═══════════════════════════════════════════════════════
 
 function showLoadingState(){
@@ -1645,7 +2013,6 @@ function initializeDashboard(){
     }, 2000);
 }
 
-// 🔧 مراقبة الاتصال في الوقت الفعلي
 db.ref('.info/connected').on('value', snap=>{
     const connected = snap.val() === true;
     console.log('🔌 Firebase connection:', connected);
@@ -1671,13 +2038,14 @@ document.addEventListener('keydown', (e)=>{
         closeSuspendModal();
         closeForceLogoutModal();
         closeNotifModal();
+        closeAreaSelectModal();
+        closeCustomerDetails();
     }
 });
 
 window.addEventListener('error', (e)=>{ console.error('Global error:', e.message); });
 window.addEventListener('unhandledrejection', (e)=>{ console.error('Unhandled promise:', e.reason); });
 
-// ✅ تشغيل التطبيق
 if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', initializeDashboard);
 } else {
