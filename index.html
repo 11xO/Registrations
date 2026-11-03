@@ -222,6 +222,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 }
 </style>
 </head><body>
+
+<!-- ⏳ الجزء التاني هيكمل من هنا (HTML + JavaScript) -->
 <div class="install-banner-top" id="installBanner">
     <div class="install-banner-inner">
         <img src="./logo.png" alt="مشوارك" class="install-banner-icon">
@@ -612,8 +614,10 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 </div>
 
 <div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMessage">رسالة</span></div>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script><script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
 // ═══════════════════════════════════════════════════════════════
 // 🟢 Firebase الأول (family-4ff2a) - الطلبات والإعدادات
 // ═══════════════════════════════════════════════════════════════
@@ -697,7 +701,7 @@ function updateConnectionIndicator(connected){
     const el = $id('liveIndicator');
     if(!el) return;
     if(connected){
-        el.innerHTML = '<i class="fas fa-circle" style="font-size:8px;animation:pulseBadge 1.5s infinite;color:#34d399"></i> متصل';
+        el.innerHTML = '<i class="fas fa-circle" style="font-size:8px;animation:pulseBadge 1.5s infinite;color:#34d399"></i> متصل (3 Firebase)';
         el.style.background = 'rgba(16,185,129,.15)';
         el.style.borderColor = 'rgba(16,185,129,.3)';
         el.style.color = '#34d399';
@@ -930,8 +934,8 @@ function loadAreas(){
 function renderAreaFilter(){
     const c = $id('areaFilter'); if(!c) return;
     const pendingByArea = {};
-    Object.values(registrationsCache).forEach(r=>{
-        if(r.status === 'pending'){
+    Object.values(registrationsCache || {}).forEach(r=>{
+        if(r && r.status === 'pending'){
             const a = r.area || 'غير محدد';
             pendingByArea[a] = (pendingByArea[a] || 0) + 1;
         }
@@ -961,7 +965,8 @@ function renderAreasPage(){
         return;
     }
     const customersByArea = {};
-    Object.values(customersCache).forEach(cust => {
+    Object.values(customersCache || {}).forEach(cust => {
+        if(!cust) return;
         const a = cust.area || 'غير محدد';
         customersByArea[a] = (customersByArea[a] || 0) + 1;
     });
@@ -987,12 +992,12 @@ function renderAreasPage(){
 // ═══════════════════════════════════════════════════════════════
 function loadRegistrations(){
     db3.ref('pending_registrations').on('value', snap=>{
-        const oldPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
+        const oldPending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
         registrationsCache = {};
         snap.forEach(c=>{
             registrationsCache[c.key] = { id:c.key, ...c.val() };
         });
-        const newPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
+        const newPending = Object.values(registrationsCache).filter(r=>r && r.status==='pending').length;
         if(newPending > oldPending){ playNotificationSound(); }
         updateRegistrationsBadge();
         updateStats();
@@ -1007,7 +1012,7 @@ function loadRegistrations(){
 }
 
 function updateRegistrationsBadge(){
-    const pending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
+    const pending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
     const badge = $id('registrationsBadge');
     if(badge){
         badge.innerText = pending;
@@ -1016,12 +1021,12 @@ function updateRegistrationsBadge(){
 }
 
 function updateStats(){
-    const all = Object.values(registrationsCache);
+    const all = Object.values(registrationsCache || {}).filter(r=>r);
     const pending = all.filter(r=>r.status==='pending').length;
     const approved = all.filter(r=>r.status==='approved').length;
     const rejected = all.filter(r=>r.status==='rejected').length;
-    const banned = Object.keys(blacklistCache).length;
-    const suspended = Object.values(customersCache).filter(c=>c.isSuspended === true).length;
+    const banned = Object.keys(blacklistCache || {}).length;
+    const suspended = Object.values(customersCache || {}).filter(c=>c && c.isSuspended === true).length;
     const today = new Date(); today.setHours(0,0,0,0);
     const todayTime = today.getTime();
     const todayCount = all.filter(r=>(r.requestedAt||0) >= todayTime).length;
@@ -1047,8 +1052,12 @@ function switchRegTab(tab){
 
 function renderRegistrationsList(){
     const c = $id('registrationsListContainer'); if(!c) return;
+    if(!registrationsCache || Object.keys(registrationsCache).length === 0){
+        c.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>لا توجد طلبات</p></div>';
+        return;
+    }
     const search = ($id('regSearchInput')?.value||'').toLowerCase().trim();
-    let list = Object.values(registrationsCache);
+    let list = Object.values(registrationsCache).filter(r=>r);
     if(currentRegTab !== 'all'){ list = list.filter(r=>r.status === currentRegTab); }
     if(currentAreaFilter !== 'all'){ list = list.filter(r=>r.area === currentAreaFilter); }
     if(search){
@@ -1065,6 +1074,7 @@ function renderRegistrationsList(){
 }
 
 function renderRegistrationCard(r){
+    if(!r) return '';
     const statusMap = {
         'pending':  { text:'في الانتظار', icon:'fa-hourglass-half', color:'pending' },
         'approved': { text:'تمت الموافقة', icon:'fa-check-circle', color:'approved' },
@@ -1142,21 +1152,23 @@ function approveRegistration(id){
         showToast('⚠️ الرقم ده محظور!','error');
         return;
     }
-    completeApproval(id, reg.area || '');
+    if(!reg.area){
+        openAreaSelectModal(id);
+        return;
+    }
+    completeApproval(id, reg.area);
 }
 
 function completeApproval(id, area){
     const reg = registrationsCache[id]; if(!reg) return;
     const clean = (reg.phone||'').replace(/\D/g,'');
 
-    // ✅ التسجيل يتحدث في db3 (التالت)
     db3.ref('pending_registrations/'+id).update({
         status: 'approved',
         area: area,
         approvedAt: Date.now(),
         approvedBy: 'admin'
     }).then(()=>{
-        // ✅ بيانات العميل تروح db2 (التاني)
         return Promise.all([
             db2.ref('approved_users/'+clean).update({
                 name: reg.name, phone: reg.phone, area: area,
@@ -1193,7 +1205,6 @@ function closeRejectModal(){
 function confirmReject(){
     if(!rejectTargetId) return;
     const reason = $id('rejectReasonInput').value.trim();
-    // ✅ db3
     db3.ref('pending_registrations/'+rejectTargetId).update({
         status: 'rejected',
         rejectedAt: Date.now(),
@@ -1207,7 +1218,6 @@ function confirmReject(){
 function deleteRegistration(id){
     const reg = registrationsCache[id]; if(!reg) return;
     showConfirm('fa-trash','حذف الطلب',`متأكد من حذف طلب <b>${reg.name}</b> نهائياً؟`,()=>{
-        // ✅ db3
         db3.ref('pending_registrations/'+id).remove()
             .then(()=>showToast('✅ تم الحذف','success'))
             .catch(()=>showToast('خطأ في الحذف','error'));
@@ -1233,7 +1243,6 @@ function confirmBan(){
     if(!banTargetPhone) return;
     const reason = $id('banReasonInput').value.trim() || 'بدون سبب';
     const permanent = $id('permanentBanToggle').checked;
-    // ✅ blacklist في db3
     db3.ref('blacklist/'+banTargetPhone).set({
         phone: banTargetPhone,
         reason: reason,
@@ -1243,7 +1252,6 @@ function confirmBan(){
         if(banTargetRegId){
             db3.ref('pending_registrations/'+banTargetRegId).update({ status: 'banned', bannedAt: Date.now() });
         }
-        // ✅ حذف العميل من db2
         db2.ref('approved_users/'+banTargetPhone).remove();
         db2.ref('customers/'+banTargetPhone).remove();
         showToast('🚫 تم حظر الرقم','success');
@@ -1272,7 +1280,7 @@ function loadBlacklist(){
 
 function renderBlacklist(){
     const c = $id('blacklistContainer'); if(!c) return;
-    const list = Object.values(blacklistCache);
+    const list = Object.values(blacklistCache || {}).filter(b=>b);
     if(list.length === 0){
         c.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>لا يوجد محظورين</p></div>';
         return;
@@ -1300,7 +1308,6 @@ function renderBlacklist(){
 
 function unbanNumber(phone){
     showConfirm('fa-unlock','فك الحظر',`متأكد من فك حظر <b>${phone}</b>؟`,()=>{
-        // ✅ db3
         db3.ref('blacklist/'+phone).remove()
             .then(()=>showToast('✅ تم فك الحظر','success'))
             .catch(()=>showToast('خطأ','error'));
@@ -1322,6 +1329,7 @@ function loadCustomers(){
         console.error('Load customers error:', err);
     });
 }
+
 // ═══════════════════════════════════════════════════════════════
 // ✅ اختيار المنطقة عند الموافقة
 // ═══════════════════════════════════════════════════════════════
@@ -1374,7 +1382,7 @@ function selectAreaForApproval(area){
 function renderCustomersList(){
     const c = $id('customersListContainer'); if(!c) return;
     const search = ($id('custSearchInput')?.value||'').toLowerCase().trim();
-    let list = Object.values(customersCache);
+    let list = Object.values(customersCache || {}).filter(cust=>cust);
     if(search){
         list = list.filter(cust => (cust.name||'').toLowerCase().includes(search) || (cust.phone||'').includes(search));
     }
@@ -1419,7 +1427,7 @@ function renderCustomersList(){
 // ✅ صفحة تفاصيل العميل الكاملة - تقرأ من 3 Firebase
 // ═══════════════════════════════════════════════════════════════
 function openCustomerDetails(phone){
-    if(!phone) return;
+    if(!phone){ return; }
     const clean = phone.replace(/\D/g,'');
     $id('customerDetailsSub').innerText = phone;
     $id('customerDetailsBody').innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin" style="color:#8b5cf6"></i><p>جاري التحميل...</p></div>';
@@ -1427,15 +1435,15 @@ function openCustomerDetails(phone){
     $id('customerDetailsModal').classList.add('show');
 
     Promise.all([
-        db2.ref('customers/'+phone).once('value'),          // 🔵 التاني
-        db2.ref('approved_users/'+phone).once('value'),     // 🔵 التاني
-        db3.ref('users_points/'+phone).once('value'),       // 🟣 التالت
-        db3.ref('user_notifications/'+phone).once('value'), // 🟣 التالت
-        db.ref('orders').orderByChild('phone').equalTo(phone).once('value'), // 🟢 الأول
-        db3.ref('users_challenges/'+clean).once('value'),   // 🟣 التالت
-        db3.ref('users_invites/'+clean).once('value'),      // 🟣 التالت
-        db3.ref('blacklist/'+clean).once('value'),          // 🟣 التالت
-        db3.ref('rewards_history/'+clean).once('value')     // 🟣 التالت
+        db2.ref('customers/'+phone).once('value'),
+        db2.ref('approved_users/'+phone).once('value'),
+        db3.ref('users_points/'+phone).once('value'),
+        db3.ref('user_notifications/'+phone).once('value'),
+        db.ref('orders').orderByChild('phone').equalTo(phone).once('value'),
+        db3.ref('users_challenges/'+clean).once('value'),
+        db3.ref('users_invites/'+clean).once('value'),
+        db3.ref('blacklist/'+clean).once('value'),
+        db3.ref('rewards_history/'+clean).once('value')
     ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap])=>{
         const cust = custSnap.val() || {};
         const approved = approvedSnap.val() || {};
@@ -1444,7 +1452,6 @@ function openCustomerDetails(phone){
         const blacklist = blacklistSnap.val();
         const rewardsHistory = rewardsSnap.val() || {};
 
-        // تجميع الطلبات
         const orders = [];
         ordersSnap.forEach(c=>{
             const o = c.val();
@@ -1452,7 +1459,6 @@ function openCustomerDetails(phone){
         });
         orders.sort((a,b)=>(b.time||0) - (a.time||0));
 
-        // إحصائيات
         const totalOrders = orders.length;
         const completedOrders = orders.filter(o=>o.status === 'completed').length;
         const cancelledOrders = orders.filter(o=>o.status === 'cancelled').length;
@@ -1460,29 +1466,23 @@ function openCustomerDetails(phone){
         const totalSpent = orders.filter(o=>o.status === 'completed').reduce((sum,o)=>sum + (Number(o.price)||0), 0);
         const pointsFromOrders = orders.reduce((sum,o)=>sum + (Number(o.pointsEarned)||0), 0);
 
-        // الإشعارات
         const notifList = Object.keys(notifications).map(k=>({ id:k, ...notifications[k] }));
         notifList.sort((a,b)=>(b.sentAt||0) - (a.sentAt||0));
 
-        // المكافآت
         const rewardsList = Object.keys(rewardsHistory).map(k=>({ id:k, ...rewardsHistory[k] }));
         rewardsList.sort((a,b)=>(b.usedAt||0) - (a.usedAt||0));
         const totalRedeemed = rewardsList.reduce((sum,r)=>sum + (Number(r.cost)||0), 0);
 
-        // التاريخ
         const regDate = cust.registeredAt ? new Date(cust.registeredAt).toLocaleString('ar-EG') : 'غير محدد';
         const lastLogin = approved.lastLogin ? new Date(approved.lastLogin).toLocaleString('ar-EG') : 'غير محدد';
 
-        // التحدي
         const challenges = challengesSnap.val() || {};
         const weekKeys = Object.keys(challenges).sort().reverse();
         const currentWeek = weekKeys[0] ? challenges[weekKeys[0]] : null;
 
-        // الدعوات
         const invites = invitesSnap.val();
 
         let html = `
-            <!-- بيانات أساسية -->
             <div class="customer-details-header">
                 <div class="customer-details-avatar">${(cust.name||'?').charAt(0).toUpperCase()}</div>
                 <div class="customer-details-name">${cust.name||'بدون اسم'}</div>
@@ -1497,7 +1497,6 @@ function openCustomerDetails(phone){
                 ${cust.address?`<div style="margin-top:12px;font-size:12px;color:#cbd5e1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:8px 12px"><i class="fas fa-home" style="color:#10b981"></i> ${cust.address}</div>`:`<div style="margin-top:12px;font-size:11px;color:#fbbf24"><i class="fas fa-exclamation-triangle"></i> مفيش عنوان محفوظ</div>`}
             </div>
 
-            <!-- إحصائيات سريعة -->
             <div class="customer-stats-grid">
                 <div class="customer-stat" style="border-color:rgba(139,92,246,.35)">
                     <div class="customer-stat-label" style="color:#a78bfa">الطلبات</div>
@@ -1517,7 +1516,6 @@ function openCustomerDetails(phone){
                 </div>
             </div>
 
-            <!-- معلومات -->
             <div class="customer-info-box">
                 <div class="customer-info-title"><i class="fas fa-info-circle" style="color:#a78bfa"></i> معلومات</div>
                 <div class="customer-info-row"><span>📅 تاريخ التسجيل:</span><b>${regDate}</b></div>
@@ -1533,7 +1531,6 @@ function openCustomerDetails(phone){
                 <div style="font-size:12px;color:#cbd5e1">طلبات الأسبوع: <b style="color:#fff">${currentWeek.ordersCount || 0}</b> ${currentWeek.completed ? '✅ مكتمل' : ''}</div>
             </div>` : ''}
 
-            <!-- سجل المكافآت -->
             ${rewardsList.length > 0 ? `
             <div style="margin-bottom:16px">
                 <div class="customer-section-title">
@@ -1546,14 +1543,14 @@ function openCustomerDetails(phone){
                         'delivery': { bg:'rgba(16,185,129,.1)', border:'rgba(16,185,129,.3)', color:'#34d399' },
                         'discount': { bg:'rgba(245,158,11,.1)', border:'rgba(245,158,11,.3)', color:'#fbbf24' }
                     };
-                    const c = typeColors[r.type] || typeColors.discount;
+                    const cc = typeColors[r.type] || typeColors.discount;
                     const date = r.usedAt ? new Date(r.usedAt).toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
-                    return `<div class="customer-reward-item" style="background:${c.bg};border:1px solid ${c.border}">
+                    return `<div class="customer-reward-item" style="background:${cc.bg};border:1px solid ${cc.border}">
                         <div class="customer-reward-row">
                             <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
                                 <span class="customer-reward-icon">${typeIcons[r.type] || '🎁'}</span>
                                 <div class="customer-reward-info">
-                                    <div class="customer-reward-title" style="color:${c.color}">${r.typeName || r.type}</div>
+                                    <div class="customer-reward-title" style="color:${cc.color}">${r.typeName || r.type}</div>
                                     ${r.cardCode ? `<div class="customer-reward-sub" style="font-family:monospace">كود: ${r.cardCode}</div>` : ''}
                                     ${r.discountValue ? `<div class="customer-reward-sub">خصم: ${r.discountValue} ج</div>` : ''}
                                     <div class="customer-reward-date">${date}</div>
@@ -1569,7 +1566,6 @@ function openCustomerDetails(phone){
                 <div style="font-size:12px;color:#94a3b8"><i class="fas fa-gift"></i> لم يستخدم أي مكافآت بعد</div>
             </div>`}
 
-            <!-- الطلبات -->
             <div style="margin-bottom:16px">
                 <div class="customer-section-title"><i class="fas fa-receipt" style="color:#22d3ee"></i> كل الطلبات (${orders.length})</div>
                 ${orders.length === 0 ? '<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px">لا توجد طلبات</div>' :
@@ -1593,7 +1589,6 @@ function openCustomerDetails(phone){
                 ${orders.length > 20 ? `<div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:8px">+ ${orders.length - 20} طلب أقدم</div>` : ''}
             </div>
 
-            <!-- الإشعارات -->
             ${notifList.length > 0 ? `
             <div style="margin-bottom:16px">
                 <div class="customer-section-title"><i class="fas fa-bell" style="color:#22d3ee"></i> الإشعارات (${notifList.length})</div>
@@ -1613,7 +1608,6 @@ function openCustomerDetails(phone){
                 <div style="font-size:11px;color:#cbd5e1">استخدم كود: <b style="color:#fff">${invites.code||'-'}</b></div>
             </div>` : ''}
 
-            <!-- أزرار التحكم -->
             <div class="customer-actions-grid">
                 <button class="btn" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);padding:10px;font-size:12px" onclick="closeCustomerDetails();setTimeout(()=>openEditCustModal('${phone}'),300)">
                     <i class="fas fa-user-edit"></i> تعديل البيانات
@@ -1676,7 +1670,6 @@ function addPoints(delta){
 function confirmPointsEdit(){
     if(!pointsTargetPhone) return;
     const newPoints = Number($id('newPointsInput').value) || 0;
-    // ✅ db2 (customers) و db3 (users_points)
     db2.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
         .then(()=>{
             return db3.ref('users_points/'+pointsTargetPhone).set(newPoints);
@@ -1747,7 +1740,6 @@ function closeSuspendModal(){
 function confirmSuspend(){
     if(!suspendTargetPhone) return;
     const reason = $id('suspendReasonInput').value.trim() || 'بدون سبب';
-    // ✅ db2 (customers)
     db2.ref('customers/'+suspendTargetPhone).update({
         isSuspended: true,
         suspendedAt: Date.now(),
@@ -1779,7 +1771,6 @@ function closeForceLogoutModal(){
 function confirmForceLogout(){
     if(!forceLogoutTargetPhone) return;
     const msg = $id('forceLogoutMsgInput').value.trim() || 'تم إنهاء الجلسة من الإدارة';
-    // ✅ db2 (customers)
     db2.ref('customers/'+forceLogoutTargetPhone).update({
         forceLogout: true,
         forceLogoutAt: Date.now(),
@@ -1810,7 +1801,6 @@ function confirmSendNotification(){
     const body = $id('notifBodyInput').value.trim();
     const type = $id('notifTypeSelect').value;
     if(!title || !body){ showToast('اكتب العنوان والرسالة','error'); return; }
-    // ✅ db3 (user_notifications)
     db3.ref('user_notifications/'+notifTargetPhone).push({
         title, body, type,
         sentAt: Date.now(),
@@ -1825,7 +1815,6 @@ function deleteCustomerCompletely(phone, name){
     showConfirm('fa-trash-alt','حذف العميل نهائياً',
         `⚠️ هيتم حذف <b>${name}</b> نهائياً من:<br>• العملاء<br>• المستخدمين المعتمدين<br>• النقاط<br>• التسجيلات<br>• الإشعارات<br>• سجل المكافآت<br><br>هل أنت متأكد؟`,
         ()=>{
-            // ✅ db2 للعملاء + db3 للنقاط والإشعارات والتسجيلات
             const promises = [
                 db2.ref('customers/'+phone).remove(),
                 db2.ref('approved_users/'+phone).remove(),
@@ -1867,8 +1856,8 @@ function checkAutoApproval(){
         const now = Date.now();
         let processedCount = 0;
 
-        Object.values(registrationsCache).forEach(r=>{
-            if(r.status !== 'pending') return;
+        Object.values(registrationsCache || {}).forEach(r=>{
+            if(!r || r.status !== 'pending') return;
 
             const elapsed = now - (r.requestedAt || 0);
             if(elapsed < waitMs) return;
@@ -1961,12 +1950,12 @@ function switchPage(page){
 }
 
 function renderStats(){
-    const all = Object.values(registrationsCache);
-    const totalCustomers = Object.keys(customersCache).length;
+    const all = Object.values(registrationsCache || {}).filter(r=>r);
+    const totalCustomers = Object.keys(customersCache || {}).length;
     const totalPending = all.filter(r=>r.status==='pending').length;
     const totalApproved = all.filter(r=>r.status==='approved').length;
-    const totalBanned = Object.keys(blacklistCache).length;
-    const totalSuspended = Object.values(customersCache).filter(c=>c.isSuspended === true).length;
+    const totalBanned = Object.keys(blacklistCache || {}).length;
+    const totalSuspended = Object.values(customersCache || {}).filter(c=>c && c.isSuspended === true).length;
     if($id('statsTotalCustomers')) $id('statsTotalCustomers').innerText = totalCustomers;
     if($id('statsTotalPending')) $id('statsTotalPending').innerText = totalPending;
     if($id('statsTotalApproved')) $id('statsTotalApproved').innerText = totalApproved;
@@ -1979,7 +1968,8 @@ function renderStats(){
 function renderStatsByArea(){
     const c = $id('statsByAreaContainer'); if(!c) return;
     const byArea = {};
-    Object.values(customersCache).forEach(cust=>{
+    Object.values(customersCache || {}).forEach(cust=>{
+        if(!cust) return;
         const area = cust.area || 'غير محدد';
         byArea[area] = (byArea[area] || 0) + 1;
     });
@@ -2010,7 +2000,7 @@ function renderStatsByArea(){
 
 function renderStatsRecent(){
     const c = $id('statsRecentContainer'); if(!c) return;
-    const all = Object.values(registrationsCache);
+    const all = Object.values(registrationsCache || {}).filter(r=>r);
     all.sort((a,b)=>(b.requestedAt||0) - (a.requestedAt||0));
     const recent = all.slice(0, 10);
     if(recent.length === 0){
@@ -2056,7 +2046,7 @@ function initializeDashboard(){
     initApp();
     switchPage('registrations');
     setTimeout(()=>{
-        const totalPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
+        const totalPending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
         if(totalPending > 0){ showToast(`📬 عندك ${totalPending} طلب في الانتظار`, 'info'); }
         else { showToast('✅ اللوحة جاهزة (3 Firebase)', 'success'); }
     }, 2000);
@@ -2102,8 +2092,8 @@ if(document.readyState === 'loading'){
 
 function cleanupOldRegistrations(){
     const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
-    Object.values(registrationsCache).forEach(r=>{
-        if(r.status === 'rejected' && (r.rejectedAt||0) < thirtyDaysAgo){
+    Object.values(registrationsCache || {}).forEach(r=>{
+        if(r && r.status === 'rejected' && (r.rejectedAt||0) < thirtyDaysAgo){
             db3.ref('pending_registrations/'+r.id).remove();
         }
     });
