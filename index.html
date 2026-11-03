@@ -184,7 +184,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 .area-select-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(10,15,28,.5);border:1.5px solid var(--glass-border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.2s;font-size:13.5px;font-weight:700;color:#fff}
 .area-select-item:hover{background:rgba(139,92,246,.1);border-color:var(--primary);transform:translateY(-1px)}
 .area-select-item i:first-child{color:#fbbf24;font-size:16px}
-/* تفاصيل العميل */
 .customer-details-header{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(6,182,212,.1));border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;border:1px solid rgba(139,92,246,.3)}
 .customer-details-avatar{width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:900;margin:0 auto 12px;box-shadow:0 10px 25px rgba(139,92,246,.4)}
 .customer-details-name{font-size:20px;font-weight:900;color:#fff;margin-bottom:4px}
@@ -223,7 +222,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 }
 </style>
 </head><body>
-
 <div class="install-banner-top" id="installBanner">
     <div class="install-banner-inner">
         <img src="./logo.png" alt="مشوارك" class="install-banner-icon">
@@ -423,8 +421,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div>
         <div style="font-size:12.5px;color:#cbd5e1;line-height:2">
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
-            <div>🔢 <b>الإصدار:</b> 2.4</div>
-            <div>💾 <b>قاعدة البيانات:</b> Firebase</div>
+            <div>🔢 <b>الإصدار:</b> 3.0 (3 Firebase)</div>
+            <div>💾 <b>قاعدة البيانات:</b> Firebase (3 مشاريع)</div>
             <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11xo.github.io/Meshwark/" target="_blank" style="color:#22d3ee;font-weight:900">https://11xo.github.io/Meshwark/</a></div>
         </div>
     </div>
@@ -613,9 +611,12 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMessage">رسالة</span></div><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-<script>
+<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMessage">رسالة</span></div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script><script>
+// ═══════════════════════════════════════════════════════════════
+// 🟢 Firebase الأول (family-4ff2a) - الطلبات والإعدادات
+// ═══════════════════════════════════════════════════════════════
 const firebaseConfig = {
     apiKey: "AIzaSyAR98tJfqxO0_LZT7GRn-peOqQB1PgP6D4",
     authDomain: "family-4ff2a.firebaseapp.com",
@@ -624,6 +625,36 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
+// ═══════════════════════════════════════════════════════════════
+// 🔵 Firebase التاني (meshwark-f8b0a) - العملاء
+// ═══════════════════════════════════════════════════════════════
+const firebaseConfig2 = {
+    apiKey: "AIzaSyBb61hwCwDMJrV7mhkMWJOA3RhUtu1nYac",
+    authDomain: "meshwark-f8b0a.firebaseapp.com",
+    databaseURL: "https://meshwark-f8b0a-default-rtdb.firebaseio.com",
+    projectId: "meshwark-f8b0a",
+    storageBucket: "meshwark-f8b0a.firebasestorage.app",
+    messagingSenderId: "85412350921",
+    appId: "1:85412350921:web:5a654ccb3753dc1153b618"
+};
+const app2 = firebase.initializeApp(firebaseConfig2, "secondary");
+const db2 = firebase.database(app2);
+
+// ═══════════════════════════════════════════════════════════════
+// 🟣 Firebase التالت (meshwark2) - التسجيلات والنقاط
+// ═══════════════════════════════════════════════════════════════
+const firebaseConfig3 = {
+    apiKey: "AIzaSyDNeFKaTiyDzSU_emOtEyLFA3f2J7uhHiE",
+    authDomain: "meshwark2.firebaseapp.com",
+    databaseURL: "https://meshwark2-default-rtdb.firebaseio.com",
+    projectId: "meshwark2",
+    storageBucket: "meshwark2.firebasestorage.app",
+    messagingSenderId: "954116788968",
+    appId: "1:954116788968:web:399fe497edca7cb47cef5d"
+};
+const app3 = firebase.initializeApp(firebaseConfig3, "third");
+const db3 = firebase.database(app3);
 
 let registrationsCache = {};
 let customersCache = {};
@@ -768,8 +799,6 @@ function loadAutoApprovalSettings(){
         if(minDisp) minDisp.innerText = minutes;
         const soundToggle = $id('settingsSoundToggle');
         if(soundToggle) soundToggle.checked = sound;
-
-        console.log('⚙️ إعدادات الموافقة (من Firebase):', { enabled, minutes });
     }).catch(err=>{
         console.error('Load settings error:', err);
         const enabled = isAutoApproveEnabled();
@@ -953,8 +982,11 @@ function renderAreasPage(){
     c.innerHTML = html;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ✅ التسجيلات - من db3 (Firebase التالت)
+// ═══════════════════════════════════════════════════════════════
 function loadRegistrations(){
-    db.ref('pending_registrations').on('value', snap=>{
+    db3.ref('pending_registrations').on('value', snap=>{
         const oldPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
         registrationsCache = {};
         snap.forEach(c=>{
@@ -1117,22 +1149,27 @@ function completeApproval(id, area){
     const reg = registrationsCache[id]; if(!reg) return;
     const clean = (reg.phone||'').replace(/\D/g,'');
 
-    db.ref('pending_registrations/'+id).update({
+    // ✅ التسجيل يتحدث في db3 (التالت)
+    db3.ref('pending_registrations/'+id).update({
         status: 'approved',
         area: area,
         approvedAt: Date.now(),
         approvedBy: 'admin'
     }).then(()=>{
-        db.ref('approved_users/'+clean).update({
-            name: reg.name, phone: reg.phone, area: area,
-            address: reg.address || '',
-            approvedAt: Date.now(), source: 'admin'
-        });
-        db.ref('customers/'+clean).update({
-            name: reg.name, phone: reg.phone, area: area,
-            address: reg.address || '',
-            registeredAt: Date.now(), points: 0
-        });
+        // ✅ بيانات العميل تروح db2 (التاني)
+        return Promise.all([
+            db2.ref('approved_users/'+clean).update({
+                name: reg.name, phone: reg.phone, area: area,
+                address: reg.address || '',
+                approvedAt: Date.now(), source: 'admin'
+            }),
+            db2.ref('customers/'+clean).update({
+                name: reg.name, phone: reg.phone, area: area,
+                address: reg.address || '',
+                registeredAt: Date.now(), points: 0
+            })
+        ]);
+    }).then(()=>{
         showToast(`✅ تمت الموافقة على ${reg.name}`,'success');
     }).catch(err=>{
         console.error(err);
@@ -1156,7 +1193,8 @@ function closeRejectModal(){
 function confirmReject(){
     if(!rejectTargetId) return;
     const reason = $id('rejectReasonInput').value.trim();
-    db.ref('pending_registrations/'+rejectTargetId).update({
+    // ✅ db3
+    db3.ref('pending_registrations/'+rejectTargetId).update({
         status: 'rejected',
         rejectedAt: Date.now(),
         rejectReason: reason || 'لم يتم تحديد سبب'
@@ -1169,7 +1207,8 @@ function confirmReject(){
 function deleteRegistration(id){
     const reg = registrationsCache[id]; if(!reg) return;
     showConfirm('fa-trash','حذف الطلب',`متأكد من حذف طلب <b>${reg.name}</b> نهائياً؟`,()=>{
-        db.ref('pending_registrations/'+id).remove()
+        // ✅ db3
+        db3.ref('pending_registrations/'+id).remove()
             .then(()=>showToast('✅ تم الحذف','success'))
             .catch(()=>showToast('خطأ في الحذف','error'));
     });
@@ -1194,17 +1233,19 @@ function confirmBan(){
     if(!banTargetPhone) return;
     const reason = $id('banReasonInput').value.trim() || 'بدون سبب';
     const permanent = $id('permanentBanToggle').checked;
-    db.ref('blacklist/'+banTargetPhone).set({
+    // ✅ blacklist في db3
+    db3.ref('blacklist/'+banTargetPhone).set({
         phone: banTargetPhone,
         reason: reason,
         permanent: permanent,
         bannedAt: Date.now()
     }).then(()=>{
         if(banTargetRegId){
-            db.ref('pending_registrations/'+banTargetRegId).update({ status: 'banned', bannedAt: Date.now() });
+            db3.ref('pending_registrations/'+banTargetRegId).update({ status: 'banned', bannedAt: Date.now() });
         }
-        db.ref('approved_users/'+banTargetPhone).remove();
-        db.ref('customers/'+banTargetPhone).remove();
+        // ✅ حذف العميل من db2
+        db2.ref('approved_users/'+banTargetPhone).remove();
+        db2.ref('customers/'+banTargetPhone).remove();
         showToast('🚫 تم حظر الرقم','success');
         closeBanModal();
     }).catch(err=>{
@@ -1213,8 +1254,11 @@ function confirmBan(){
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ✅ الحظر - من db3 (Firebase التالت)
+// ═══════════════════════════════════════════════════════════════
 function loadBlacklist(){
-    db.ref('blacklist').on('value', snap=>{
+    db3.ref('blacklist').on('value', snap=>{
         blacklistCache = {};
         snap.forEach(c=>{
             blacklistCache[c.key] = { id:c.key, ...c.val() };
@@ -1256,14 +1300,18 @@ function renderBlacklist(){
 
 function unbanNumber(phone){
     showConfirm('fa-unlock','فك الحظر',`متأكد من فك حظر <b>${phone}</b>؟`,()=>{
-        db.ref('blacklist/'+phone).remove()
+        // ✅ db3
+        db3.ref('blacklist/'+phone).remove()
             .then(()=>showToast('✅ تم فك الحظر','success'))
             .catch(()=>showToast('خطأ','error'));
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ✅ العملاء - من db2 (Firebase التاني)
+// ═══════════════════════════════════════════════════════════════
 function loadCustomers(){
-    db.ref('customers').on('value', snap=>{
+    db2.ref('customers').on('value', snap=>{
         customersCache = {};
         snap.forEach(c=>{
             customersCache[c.key] = { phone:c.key, ...c.val() };
@@ -1274,8 +1322,9 @@ function loadCustomers(){
         console.error('Load customers error:', err);
     });
 }
-
+// ═══════════════════════════════════════════════════════════════
 // ✅ اختيار المنطقة عند الموافقة
+// ═══════════════════════════════════════════════════════════════
 function openAreaSelectModal(id){
     areaSelectTargetId = id;
     const reg = registrationsCache[id];
@@ -1320,7 +1369,9 @@ function selectAreaForApproval(area){
     showConfirm('fa-check', 'تأكيد الموافقة', `المنطقة المختارة: <b>${area}</b><br>متأكد من الموافقة على العميل؟`, ()=>{
         completeApproval(id, area);
     });
-}function renderCustomersList(){
+}
+
+function renderCustomersList(){
     const c = $id('customersListContainer'); if(!c) return;
     const search = ($id('custSearchInput')?.value||'').toLowerCase().trim();
     let list = Object.values(customersCache);
@@ -1364,9 +1415,9 @@ function selectAreaForApproval(area){
     c.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════
-// ✅ صفحة تفاصيل العميل الكاملة
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// ✅ صفحة تفاصيل العميل الكاملة - تقرأ من 3 Firebase
+// ═══════════════════════════════════════════════════════════════
 function openCustomerDetails(phone){
     if(!phone) return;
     const clean = phone.replace(/\D/g,'');
@@ -1376,15 +1427,15 @@ function openCustomerDetails(phone){
     $id('customerDetailsModal').classList.add('show');
 
     Promise.all([
-        db.ref('customers/'+phone).once('value'),
-        db.ref('approved_users/'+phone).once('value'),
-        db.ref('users_points/'+phone).once('value'),
-        db.ref('user_notifications/'+phone).once('value'),
-        db.ref('orders').orderByChild('phone').equalTo(phone).once('value'),
-        db.ref('users_challenges/'+clean).once('value'),
-        db.ref('users_invites/'+clean).once('value'),
-        db.ref('blacklist/'+clean).once('value'),
-        db.ref('rewards_history/'+clean).once('value')
+        db2.ref('customers/'+phone).once('value'),          // 🔵 التاني
+        db2.ref('approved_users/'+phone).once('value'),     // 🔵 التاني
+        db3.ref('users_points/'+phone).once('value'),       // 🟣 التالت
+        db3.ref('user_notifications/'+phone).once('value'), // 🟣 التالت
+        db.ref('orders').orderByChild('phone').equalTo(phone).once('value'), // 🟢 الأول
+        db3.ref('users_challenges/'+clean).once('value'),   // 🟣 التالت
+        db3.ref('users_invites/'+clean).once('value'),      // 🟣 التالت
+        db3.ref('blacklist/'+clean).once('value'),          // 🟣 التالت
+        db3.ref('rewards_history/'+clean).once('value')     // 🟣 التالت
     ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap])=>{
         const cust = custSnap.val() || {};
         const approved = approvedSnap.val() || {};
@@ -1625,9 +1676,12 @@ function addPoints(delta){
 function confirmPointsEdit(){
     if(!pointsTargetPhone) return;
     const newPoints = Number($id('newPointsInput').value) || 0;
-    db.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
+    // ✅ db2 (customers) و db3 (users_points)
+    db2.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
         .then(()=>{
-            db.ref('users_points/'+pointsTargetPhone).set(newPoints);
+            return db3.ref('users_points/'+pointsTargetPhone).set(newPoints);
+        })
+        .then(()=>{
             showToast(`✅ تم تحديث النقاط: ${newPoints}`,'success');
             closePointsModal();
         })
@@ -1666,9 +1720,9 @@ function saveCustomerEdit(){
     const newPoints = Number($id('editCustPoints').value) || 0;
     if(!newName){ showToast('اكتب الاسم','error'); return; }
     Promise.all([
-        db.ref('customers/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress, points: newPoints }),
-        db.ref('approved_users/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress }),
-        db.ref('users_points/'+editCustTargetPhone).set(newPoints)
+        db2.ref('customers/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress, points: newPoints }),
+        db2.ref('approved_users/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress }),
+        db3.ref('users_points/'+editCustTargetPhone).set(newPoints)
     ]).then(()=>{
         showToast('✅ تم حفظ التعديلات','success');
         closeEditCustModal();
@@ -1693,7 +1747,8 @@ function closeSuspendModal(){
 function confirmSuspend(){
     if(!suspendTargetPhone) return;
     const reason = $id('suspendReasonInput').value.trim() || 'بدون سبب';
-    db.ref('customers/'+suspendTargetPhone).update({
+    // ✅ db2 (customers)
+    db2.ref('customers/'+suspendTargetPhone).update({
         isSuspended: true,
         suspendedAt: Date.now(),
         suspendReason: reason
@@ -1704,7 +1759,7 @@ function confirmSuspend(){
 }
 function unsuspendCustomer(phone){
     showConfirm('fa-play','فك التعليق',`متأكد من فك تعليق <b>${phone}</b>؟`,()=>{
-        db.ref('customers/'+phone).update({ isSuspended: false, unsuspendedAt: Date.now() })
+        db2.ref('customers/'+phone).update({ isSuspended: false, unsuspendedAt: Date.now() })
             .then(()=>showToast('✅ تم فك التعليق','success'));
     });
 }
@@ -1724,7 +1779,8 @@ function closeForceLogoutModal(){
 function confirmForceLogout(){
     if(!forceLogoutTargetPhone) return;
     const msg = $id('forceLogoutMsgInput').value.trim() || 'تم إنهاء الجلسة من الإدارة';
-    db.ref('customers/'+forceLogoutTargetPhone).update({
+    // ✅ db2 (customers)
+    db2.ref('customers/'+forceLogoutTargetPhone).update({
         forceLogout: true,
         forceLogoutAt: Date.now(),
         forceLogoutMessage: msg
@@ -1754,7 +1810,8 @@ function confirmSendNotification(){
     const body = $id('notifBodyInput').value.trim();
     const type = $id('notifTypeSelect').value;
     if(!title || !body){ showToast('اكتب العنوان والرسالة','error'); return; }
-    db.ref('user_notifications/'+notifTargetPhone).push({
+    // ✅ db3 (user_notifications)
+    db3.ref('user_notifications/'+notifTargetPhone).push({
         title, body, type,
         sentAt: Date.now(),
         read: false
@@ -1768,17 +1825,18 @@ function deleteCustomerCompletely(phone, name){
     showConfirm('fa-trash-alt','حذف العميل نهائياً',
         `⚠️ هيتم حذف <b>${name}</b> نهائياً من:<br>• العملاء<br>• المستخدمين المعتمدين<br>• النقاط<br>• التسجيلات<br>• الإشعارات<br>• سجل المكافآت<br><br>هل أنت متأكد؟`,
         ()=>{
+            // ✅ db2 للعملاء + db3 للنقاط والإشعارات والتسجيلات
             const promises = [
-                db.ref('customers/'+phone).remove(),
-                db.ref('approved_users/'+phone).remove(),
-                db.ref('users_points/'+phone).remove(),
-                db.ref('user_notifications/'+phone).remove(),
-                db.ref('users_challenges/'+phone).remove(),
-                db.ref('rewards_history/'+phone).remove()
+                db2.ref('customers/'+phone).remove(),
+                db2.ref('approved_users/'+phone).remove(),
+                db3.ref('users_points/'+phone).remove(),
+                db3.ref('user_notifications/'+phone).remove(),
+                db3.ref('users_challenges/'+phone).remove(),
+                db3.ref('rewards_history/'+phone).remove()
             ];
-            db.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
+            db3.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
                 snap.forEach(c=>{
-                    promises.push(db.ref('pending_registrations/'+c.key).remove());
+                    promises.push(db3.ref('pending_registrations/'+c.key).remove());
                 });
                 return Promise.all(promises);
             }).then(()=>{
@@ -1795,7 +1853,6 @@ function startAutoApprovalLoop(){
     if(autoApprovalInterval) clearInterval(autoApprovalInterval);
     autoApprovalInterval = setInterval(checkAutoApproval, 3000);
     setTimeout(checkAutoApproval, 1000);
-    console.log('⏱️ بدء فحص الموافقة التلقائية كل 3 ثواني');
 }
 
 function checkAutoApproval(){
@@ -1819,25 +1876,25 @@ function checkAutoApproval(){
             const clean = (r.phone||'').replace(/\D/g,'');
 
             if(blacklistCache[clean]){
-                db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
+                db3.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
                 return;
             }
 
             processedCount++;
 
-            db.ref('pending_registrations/'+r.id).update({
+            db3.ref('pending_registrations/'+r.id).update({
                 status: 'approved',
                 approvedAt: now,
                 approvedBy: 'auto_approval',
                 autoApproved: true
             }).then(()=>{
                 return Promise.all([
-                    db.ref('approved_users/'+clean).update({
+                    db2.ref('approved_users/'+clean).update({
                         name: r.name, phone: r.phone, area: r.area,
                         address: r.address || '',
                         approvedAt: now, source: 'auto_approval'
                     }),
-                    db.ref('customers/'+clean).update({
+                    db2.ref('customers/'+clean).update({
                         name: r.name, phone: r.phone, area: r.area,
                         address: r.address || '',
                         registeredAt: now, points: 0
@@ -1849,10 +1906,6 @@ function checkAutoApproval(){
                 console.error('Auto approval error:', err);
             });
         });
-
-        if(processedCount > 0){
-            console.log(`⚡ تمت الموافقة على ${processedCount} طلب تلقائياً`);
-        }
     }).catch(err=>{
         console.error('checkAutoApproval error:', err);
     });
@@ -1987,10 +2040,6 @@ function renderStatsRecent(){
     c.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════
-// 🚀 INIT - تشغيل اللوحة
-// ═══════════════════════════════════════════════════════
-
 function showLoadingState(){
     const regContainer = $id('registrationsListContainer');
     if(regContainer) regContainer.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin" style="color:#8b5cf6"></i><p>جاري تحميل البيانات من Firebase...</p></div>';
@@ -2001,7 +2050,7 @@ function showLoadingState(){
 }
 
 function initializeDashboard(){
-    console.log('🚀 بدء تحميل لوحة التحكم...');
+    console.log('🚀 بدء تحميل لوحة التحكم (3 Firebase)...');
     showLoadingState();
     updateConnectionIndicator(false);
     initApp();
@@ -2009,13 +2058,12 @@ function initializeDashboard(){
     setTimeout(()=>{
         const totalPending = Object.values(registrationsCache).filter(r=>r.status==='pending').length;
         if(totalPending > 0){ showToast(`📬 عندك ${totalPending} طلب في الانتظار`, 'info'); }
-        else { showToast('✅ اللوحة جاهزة', 'success'); }
+        else { showToast('✅ اللوحة جاهزة (3 Firebase)', 'success'); }
     }, 2000);
 }
 
 db.ref('.info/connected').on('value', snap=>{
     const connected = snap.val() === true;
-    console.log('🔌 Firebase connection:', connected);
     updateConnectionIndicator(connected);
 });
 
@@ -2056,7 +2104,7 @@ function cleanupOldRegistrations(){
     const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
     Object.values(registrationsCache).forEach(r=>{
         if(r.status === 'rejected' && (r.rejectedAt||0) < thirtyDaysAgo){
-            db.ref('pending_registrations/'+r.id).remove();
+            db3.ref('pending_registrations/'+r.id).remove();
         }
     });
 }
