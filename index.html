@@ -2,14 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>لوحة تحكم مشوارك | الأدمن</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>لوحة تحكم مشوارك | الأدمن</title>
 <meta name="theme-color" content="#8b5cf6">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مشوارك أدمن">
-<meta name="application-name" content="مشوارك أدمن">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="./logo.png">
 <link rel="icon" type="image/png" href="./logo.png">
@@ -221,9 +220,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     .customer-stats-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
-</head><body>
-
-<!-- ⏳ الجزء التاني هيكمل من هنا (HTML + JavaScript) -->
+</head>
+<body>
 <div class="install-banner-top" id="installBanner">
     <div class="install-banner-inner">
         <img src="./logo.png" alt="مشوارك" class="install-banner-icon">
@@ -423,8 +421,8 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div>
         <div style="font-size:12.5px;color:#cbd5e1;line-height:2">
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
-            <div>🔢 <b>الإصدار:</b> 3.0 (3 Firebase)</div>
-            <div>💾 <b>قاعدة البيانات:</b> Firebase (3 مشاريع)</div>
+            <div>🔢 <b>الإصدار:</b> 4.0 (مشروعين موحدين)</div>
+            <div>💾 <b>قاعدة البيانات:</b> Firebase (family + meshwark)</div>
             <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11xo.github.io/Meshwark/" target="_blank" style="color:#22d3ee;font-weight:900">https://11xo.github.io/Meshwark/</a></div>
         </div>
     </div>
@@ -619,7 +617,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
-// 🟢 Firebase الأول (family-4ff2a) - الطلبات والإعدادات
+// 🟢 Firebase #1: family-4ff2a — الطلبات والإعدادات والنقاط
 // ═══════════════════════════════════════════════════════════════
 const firebaseConfig = {
     apiKey: "AIzaSyAR98tJfqxO0_LZT7GRn-peOqQB1PgP6D4",
@@ -631,7 +629,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ═══════════════════════════════════════════════════════════════
-// 🔵 Firebase التاني (meshwark-f8b0a) - العملاء
+// 🔵 Firebase #2: meshwark-f8b0a — العملاء والمنتجات
 // ═══════════════════════════════════════════════════════════════
 const firebaseConfig2 = {
     apiKey: "AIzaSyBb61hwCwDMJrV7mhkMWJOA3RhUtu1nYac",
@@ -642,24 +640,13 @@ const firebaseConfig2 = {
     messagingSenderId: "85412350921",
     appId: "1:85412350921:web:5a654ccb3753dc1153b618"
 };
-const app2 = firebase.initializeApp(firebaseConfig2, "secondary");
+const app2 = firebase.initializeApp(firebaseConfig2, "secondary_" + Date.now());
 const db2 = firebase.database(app2);
-
+</script>
+<script>
 // ═══════════════════════════════════════════════════════════════
-// 🟣 Firebase التالت (meshwark2) - التسجيلات والنقاط
+// State
 // ═══════════════════════════════════════════════════════════════
-const firebaseConfig3 = {
-    apiKey: "AIzaSyDNeFKaTiyDzSU_emOtEyLFA3f2J7uhHiE",
-    authDomain: "meshwark2.firebaseapp.com",
-    databaseURL: "https://meshwark2-default-rtdb.firebaseio.com",
-    projectId: "meshwark2",
-    storageBucket: "meshwark2.firebasestorage.app",
-    messagingSenderId: "954116788968",
-    appId: "1:954116788968:web:399fe497edca7cb47cef5d"
-};
-const app3 = firebase.initializeApp(firebaseConfig3, "third");
-const db3 = firebase.database(app3);
-
 let registrationsCache = {};
 let customersCache = {};
 let blacklistCache = {};
@@ -701,7 +688,7 @@ function updateConnectionIndicator(connected){
     const el = $id('liveIndicator');
     if(!el) return;
     if(connected){
-        el.innerHTML = '<i class="fas fa-circle" style="font-size:8px;animation:pulseBadge 1.5s infinite;color:#34d399"></i> متصل (3 Firebase)';
+        el.innerHTML = '<i class="fas fa-circle" style="font-size:8px;animation:pulseBadge 1.5s infinite;color:#34d399"></i> متصل (Firebase)';
         el.style.background = 'rgba(16,185,129,.15)';
         el.style.borderColor = 'rgba(16,185,129,.3)';
         el.style.color = '#34d399';
@@ -988,10 +975,10 @@ function renderAreasPage(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ✅ التسجيلات - من db3 (Firebase التالت)
+// ✅ التسجيلات - من db (family)
 // ═══════════════════════════════════════════════════════════════
 function loadRegistrations(){
-    db3.ref('pending_registrations').on('value', snap=>{
+    db.ref('pending_registrations').on('value', snap=>{
         const oldPending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
         registrationsCache = {};
         snap.forEach(c=>{
@@ -1163,7 +1150,7 @@ function completeApproval(id, area){
     const reg = registrationsCache[id]; if(!reg) return;
     const clean = (reg.phone||'').replace(/\D/g,'');
 
-    db3.ref('pending_registrations/'+id).update({
+    db.ref('pending_registrations/'+id).update({
         status: 'approved',
         area: area,
         approvedAt: Date.now(),
@@ -1205,7 +1192,7 @@ function closeRejectModal(){
 function confirmReject(){
     if(!rejectTargetId) return;
     const reason = $id('rejectReasonInput').value.trim();
-    db3.ref('pending_registrations/'+rejectTargetId).update({
+    db.ref('pending_registrations/'+rejectTargetId).update({
         status: 'rejected',
         rejectedAt: Date.now(),
         rejectReason: reason || 'لم يتم تحديد سبب'
@@ -1218,7 +1205,7 @@ function confirmReject(){
 function deleteRegistration(id){
     const reg = registrationsCache[id]; if(!reg) return;
     showConfirm('fa-trash','حذف الطلب',`متأكد من حذف طلب <b>${reg.name}</b> نهائياً؟`,()=>{
-        db3.ref('pending_registrations/'+id).remove()
+        db.ref('pending_registrations/'+id).remove()
             .then(()=>showToast('✅ تم الحذف','success'))
             .catch(()=>showToast('خطأ في الحذف','error'));
     });
@@ -1243,14 +1230,14 @@ function confirmBan(){
     if(!banTargetPhone) return;
     const reason = $id('banReasonInput').value.trim() || 'بدون سبب';
     const permanent = $id('permanentBanToggle').checked;
-    db3.ref('blacklist/'+banTargetPhone).set({
+    db.ref('blacklist/'+banTargetPhone).set({
         phone: banTargetPhone,
         reason: reason,
         permanent: permanent,
         bannedAt: Date.now()
     }).then(()=>{
         if(banTargetRegId){
-            db3.ref('pending_registrations/'+banTargetRegId).update({ status: 'banned', bannedAt: Date.now() });
+            db.ref('pending_registrations/'+banTargetRegId).update({ status: 'banned', bannedAt: Date.now() });
         }
         db2.ref('approved_users/'+banTargetPhone).remove();
         db2.ref('customers/'+banTargetPhone).remove();
@@ -1263,10 +1250,10 @@ function confirmBan(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ✅ الحظر - من db3 (Firebase التالت)
+// ✅ الحظر - من db (family)
 // ═══════════════════════════════════════════════════════════════
 function loadBlacklist(){
-    db3.ref('blacklist').on('value', snap=>{
+    db.ref('blacklist').on('value', snap=>{
         blacklistCache = {};
         snap.forEach(c=>{
             blacklistCache[c.key] = { id:c.key, ...c.val() };
@@ -1308,14 +1295,14 @@ function renderBlacklist(){
 
 function unbanNumber(phone){
     showConfirm('fa-unlock','فك الحظر',`متأكد من فك حظر <b>${phone}</b>؟`,()=>{
-        db3.ref('blacklist/'+phone).remove()
+        db.ref('blacklist/'+phone).remove()
             .then(()=>showToast('✅ تم فك الحظر','success'))
             .catch(()=>showToast('خطأ','error'));
     });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ✅ العملاء - من db2 (Firebase التاني)
+// ✅ العملاء - من db2 (meshwark)
 // ═══════════════════════════════════════════════════════════════
 function loadCustomers(){
     db2.ref('customers').on('value', snap=>{
@@ -1330,9 +1317,6 @@ function loadCustomers(){
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ✅ اختيار المنطقة عند الموافقة
-// ═══════════════════════════════════════════════════════════════
 function openAreaSelectModal(id){
     areaSelectTargetId = id;
     const reg = registrationsCache[id];
@@ -1424,7 +1408,7 @@ function renderCustomersList(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ✅ صفحة تفاصيل العميل الكاملة - تقرأ من 3 Firebase
+// ✅ صفحة تفاصيل العميل الكاملة
 // ═══════════════════════════════════════════════════════════════
 function openCustomerDetails(phone){
     if(!phone){ return; }
@@ -1437,13 +1421,13 @@ function openCustomerDetails(phone){
     Promise.all([
         db2.ref('customers/'+phone).once('value'),
         db2.ref('approved_users/'+phone).once('value'),
-        db3.ref('users_points/'+phone).once('value'),
-        db3.ref('user_notifications/'+phone).once('value'),
+        db.ref('users_points/'+clean).once('value'),
+        db.ref('user_notifications/'+phone).once('value'),
         db.ref('orders').orderByChild('phone').equalTo(phone).once('value'),
-        db3.ref('users_challenges/'+clean).once('value'),
-        db3.ref('users_invites/'+clean).once('value'),
-        db3.ref('blacklist/'+clean).once('value'),
-        db3.ref('rewards_history/'+clean).once('value')
+        db.ref('users_challenges/'+clean).once('value'),
+        db.ref('users_invites/'+clean).once('value'),
+        db.ref('blacklist/'+clean).once('value'),
+        db.ref('rewards_history/'+clean).once('value')
     ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap])=>{
         const cust = custSnap.val() || {};
         const approved = approvedSnap.val() || {};
@@ -1672,7 +1656,7 @@ function confirmPointsEdit(){
     const newPoints = Number($id('newPointsInput').value) || 0;
     db2.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
         .then(()=>{
-            return db3.ref('users_points/'+pointsTargetPhone).set(newPoints);
+            return db.ref('users_points/'+pointsTargetPhone).set(newPoints);
         })
         .then(()=>{
             showToast(`✅ تم تحديث النقاط: ${newPoints}`,'success');
@@ -1715,7 +1699,7 @@ function saveCustomerEdit(){
     Promise.all([
         db2.ref('customers/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress, points: newPoints }),
         db2.ref('approved_users/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress }),
-        db3.ref('users_points/'+editCustTargetPhone).set(newPoints)
+        db.ref('users_points/'+editCustTargetPhone).set(newPoints)
     ]).then(()=>{
         showToast('✅ تم حفظ التعديلات','success');
         closeEditCustModal();
@@ -1801,7 +1785,7 @@ function confirmSendNotification(){
     const body = $id('notifBodyInput').value.trim();
     const type = $id('notifTypeSelect').value;
     if(!title || !body){ showToast('اكتب العنوان والرسالة','error'); return; }
-    db3.ref('user_notifications/'+notifTargetPhone).push({
+    db.ref('user_notifications/'+notifTargetPhone).push({
         title, body, type,
         sentAt: Date.now(),
         read: false
@@ -1818,14 +1802,14 @@ function deleteCustomerCompletely(phone, name){
             const promises = [
                 db2.ref('customers/'+phone).remove(),
                 db2.ref('approved_users/'+phone).remove(),
-                db3.ref('users_points/'+phone).remove(),
-                db3.ref('user_notifications/'+phone).remove(),
-                db3.ref('users_challenges/'+phone).remove(),
-                db3.ref('rewards_history/'+phone).remove()
+                db.ref('users_points/'+phone).remove(),
+                db.ref('user_notifications/'+phone).remove(),
+                db.ref('users_challenges/'+phone).remove(),
+                db.ref('rewards_history/'+phone).remove()
             ];
-            db3.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
+            db.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
                 snap.forEach(c=>{
-                    promises.push(db3.ref('pending_registrations/'+c.key).remove());
+                    promises.push(db.ref('pending_registrations/'+c.key).remove());
                 });
                 return Promise.all(promises);
             }).then(()=>{
@@ -1865,13 +1849,13 @@ function checkAutoApproval(){
             const clean = (r.phone||'').replace(/\D/g,'');
 
             if(blacklistCache[clean]){
-                db3.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
+                db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
                 return;
             }
 
             processedCount++;
 
-            db3.ref('pending_registrations/'+r.id).update({
+            db.ref('pending_registrations/'+r.id).update({
                 status: 'approved',
                 approvedAt: now,
                 approvedBy: 'auto_approval',
@@ -2040,7 +2024,7 @@ function showLoadingState(){
 }
 
 function initializeDashboard(){
-    console.log('🚀 بدء تحميل لوحة التحكم (3 Firebase)...');
+    console.log('🚀 بدء تحميل لوحة التحكم...');
     showLoadingState();
     updateConnectionIndicator(false);
     initApp();
@@ -2048,7 +2032,7 @@ function initializeDashboard(){
     setTimeout(()=>{
         const totalPending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
         if(totalPending > 0){ showToast(`📬 عندك ${totalPending} طلب في الانتظار`, 'info'); }
-        else { showToast('✅ اللوحة جاهزة (3 Firebase)', 'success'); }
+        else { showToast('✅ اللوحة جاهزة', 'success'); }
     }, 2000);
 }
 
@@ -2094,7 +2078,7 @@ function cleanupOldRegistrations(){
     const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
     Object.values(registrationsCache || {}).forEach(r=>{
         if(r && r.status === 'rejected' && (r.rejectedAt||0) < thirtyDaysAgo){
-            db3.ref('pending_registrations/'+r.id).remove();
+            db.ref('pending_registrations/'+r.id).remove();
         }
     });
 }
