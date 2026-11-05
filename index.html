@@ -208,6 +208,12 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 .customer-reward-date{font-size:10px;color:#94a3b8;margin-top:3px}
 .customer-reward-cost{background:rgba(245,158,11,.2);color:#fbbf24;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:900;white-space:nowrap}
 .customer-actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;border-top:1px solid var(--glass-border);padding-top:14px;margin-top:14px}
+/* Social Settings */
+.social-preview-box{display:flex;gap:10px;padding:14px;background:rgba(10,15,28,.5);border:1px solid var(--glass-border);border-radius:14px;margin-top:12px;flex-wrap:wrap}
+.social-preview-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:900;font-size:12.5px;color:#fff;text-decoration:none;flex:1;min-width:130px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.social-preview-btn.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+.social-preview-btn.facebook{background:linear-gradient(135deg,#1877F2,#0C5FC4)}
+.social-preview-btn.hidden-preview{opacity:.3;filter:grayscale(1);text-decoration:line-through}
 @media(max-width:900px){
     .sidebar{transform:translateX(100%)}
     .sidebar.open{transform:translateX(0)}
@@ -402,6 +408,57 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
             لما تقفل الموافقة التلقائية، شاشة الزبون هتتغير لـ "انتظار المراجعة اليدوية"
         </div>
     </div>
+
+    <!-- ✅ قسم السوشيال ميديا -->
+    <div class="card">
+        <div class="card-title"><i class="fas fa-share-alt"></i> روابط التواصل الاجتماعي</div>
+        <div class="card-subtitle">تحكم كامل في إظهار/إخفاء أزرار الواتساب والفيسبوك في تطبيق العميل</div>
+
+        <!-- واتساب -->
+        <div class="toggle-row">
+            <div class="toggle-label">
+                <div style="display:flex;align-items:center;gap:8px"><i class="fab fa-whatsapp" style="color:#25D366;font-size:16px"></i> زر الواتساب</div>
+                <small>لو مقفول، الزر هيختفي من التطبيق</small>
+            </div>
+            <label class="switch"><input type="checkbox" id="socialWhatsappEnabled" onchange="previewSocialChange()"><span class="slider-sw"></span></label>
+        </div>
+        <label class="field-label">📱 رقم الواتساب</label>
+        <input type="tel" id="socialWhatsappNumber" placeholder="اتركه فاضي عشان يستخدم رقم الدعم الفني" oninput="previewSocialChange()">
+        <div style="font-size:10.5px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:6px">
+            <i class="fas fa-info-circle" style="color:#22d3ee"></i>
+            لو فاضي هياخد رقم الدعم الفني الحالي: <b id="currentSupportDisplay" style="color:#34d399;direction:ltr">-</b>
+        </div>
+
+        <!-- فيسبوك -->
+        <div class="toggle-row" style="margin-top:14px">
+            <div class="toggle-label">
+                <div style="display:flex;align-items:center;gap:8px"><i class="fab fa-facebook-f" style="color:#1877F2;font-size:16px"></i> زر الفيسبوك</div>
+                <small>لو مقفول، الزر هيختفي من التطبيق</small>
+            </div>
+            <label class="switch"><input type="checkbox" id="socialFacebookEnabled" onchange="previewSocialChange()"><span class="slider-sw"></span></label>
+        </div>
+        <label class="field-label">🔗 رابط صفحة الفيسبوك</label>
+        <input type="url" id="socialFacebookUrl" placeholder="https://facebook.com/yourpage" oninput="previewSocialChange()">
+
+        <!-- المعاينة -->
+        <label class="field-label" style="margin-top:16px">👁️ معاينة مباشرة</label>
+        <div class="social-preview-box" id="socialPreviewBox">
+            <span style="font-size:11px;color:var(--text-muted)">—</span>
+        </div>
+
+        <button class="btn btn-primary" style="margin-top:14px" onclick="saveSocialSettings()">
+            <i class="fas fa-save"></i> حفظ إعدادات السوشيال
+        </button>
+
+        <div style="margin-top:14px;padding:12px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25);border-radius:12px;font-size:11.5px;color:#67e8f9;line-height:1.7">
+            <i class="fas fa-eye"></i>
+            <b>كيف يظهر في التطبيق:</b>
+            <div style="margin-top:6px">• الواتساب مفعّل + رقم موجود → زر واتساب يظهر في صفحة البروفايل وفي الإعدادات وفي FAB عائم</div>
+            <div>• الفيسبوك مفعّل + لينك صحيح → زر فيسبوك يظهر في نفس الأماكن</div>
+            <div>• الاثنين مخفيين → القسم كله يختفي</div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-title"><i class="fas fa-volume-up"></i> الإشعارات</div>
         <div class="toggle-row">
@@ -421,7 +478,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
         <div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div>
         <div style="font-size:12.5px;color:#cbd5e1;line-height:2">
             <div>📱 <b>التطبيق:</b> مشوارك أدمن</div>
-            <div>🔢 <b>الإصدار:</b> 4.0 (مشروعين موحدين)</div>
+            <div>🔢 <b>الإصدار:</b> 4.2 (مشروعين موحدين + سوشيال)</div>
             <div>💾 <b>قاعدة البيانات:</b> Firebase (family + meshwark)</div>
             <div>🔗 <b>تطبيق الزبون:</b> <a href="https://11xo.github.io/Meshwark/" target="_blank" style="color:#22d3ee;font-weight:900">https://11xo.github.io/Meshwark/</a></div>
         </div>
@@ -509,8 +566,11 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     <div class="center-modal-body">
         <label class="field-label">👤 الاسم</label>
         <input type="text" id="editCustName">
-        <label class="field-label">📍 المنطقة</label>
-        <select id="editCustArea"></select>
+        <input type="hidden" id="editCustAreaHidden">
+        <div style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:8px 12px;margin:10px 0;font-size:11px;color:#22d3ee;display:flex;align-items:center;gap:6px">
+            <i class="fas fa-info-circle"></i>
+            <span>المنطقة الحالية: <b id="editCustAreaDisplay" style="color:#fff">-</b> (بتتعدل من تطبيق العميل فقط)</span>
+        </div>
         <label class="field-label">🏠 العنوان</label>
         <textarea id="editCustAddress" rows="2"></textarea>
         <label class="field-label">⭐ النقاط</label>
@@ -579,7 +639,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- Modal اختيار المنطقة عند الموافقة -->
+<!-- Modal اختيار المنطقة -->
 <div class="modal-overlay" id="areaSelectOverlay" onclick="closeAreaSelectModal()"></div>
 <div class="center-modal" id="areaSelectModal">
     <div class="center-modal-header">
@@ -595,7 +655,7 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
     </div>
 </div>
 
-<!-- صفحة تفاصيل العميل -->
+<!-- تفاصيل العميل -->
 <div class="modal-overlay" id="customerDetailsOverlay" onclick="closeCustomerDetails()"></div>
 <div class="center-modal wide" id="customerDetailsModal">
     <div class="center-modal-header" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(6,182,212,.1))">
@@ -616,9 +676,6 @@ input:checked + .slider-sw:before{transform:translateX(22px)}
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
-// ═══════════════════════════════════════════════════════════════
-// 🟢 Firebase #1: family-4ff2a — الطلبات والإعدادات والنقاط
-// ═══════════════════════════════════════════════════════════════
 const firebaseConfig = {
     apiKey: "AIzaSyAR98tJfqxO0_LZT7GRn-peOqQB1PgP6D4",
     authDomain: "family-4ff2a.firebaseapp.com",
@@ -628,9 +685,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ═══════════════════════════════════════════════════════════════
-// 🔵 Firebase #2: meshwark-f8b0a — العملاء والمنتجات
-// ═══════════════════════════════════════════════════════════════
 const firebaseConfig2 = {
     apiKey: "AIzaSyBb61hwCwDMJrV7mhkMWJOA3RhUtu1nYac",
     authDomain: "meshwark-f8b0a.firebaseapp.com",
@@ -640,13 +694,12 @@ const firebaseConfig2 = {
     messagingSenderId: "85412350921",
     appId: "1:85412350921:web:5a654ccb3753dc1153b618"
 };
-const app2 = firebase.initializeApp(firebaseConfig2, "secondary_" + Date.now());
+let app2;
+try { app2 = firebase.app("secondary"); }
+catch(e){ app2 = firebase.initializeApp(firebaseConfig2, "secondary"); }
 const db2 = firebase.database(app2);
 </script>
 <script>
-// ═══════════════════════════════════════════════════════════════
-// State
-// ═══════════════════════════════════════════════════════════════
 let registrationsCache = {};
 let customersCache = {};
 let blacklistCache = {};
@@ -665,6 +718,11 @@ let suspendTargetPhone = null;
 let forceLogoutTargetPhone = null;
 let notifTargetPhone = null;
 let areaSelectTargetId = null;
+
+// Social settings
+let socialAdminListener = null;
+let supportDisplayListener = null;
+let currentSocialCache = { whatsappEnabled:true, whatsappNumber:'', facebookEnabled:true, facebookUrl:'' };
 
 function $id(id){ return document.getElementById(id); }
 
@@ -892,12 +950,127 @@ function playNotificationSound(){
 }
 function testSound(){ lastSoundTime = 0; playNotificationSound(); showToast('🔊 اختبار الصوت','info'); }
 
+// ═══════════════════════════════════════════════════════════════
+// Social Settings
+// ═══════════════════════════════════════════════════════════════
+function loadSocialAdminSettings(){
+    // support whatsapp display
+    if(supportDisplayListener){ db.ref('settings/support/whatsapp').off('value', supportDisplayListener); }
+    supportDisplayListener = db.ref('settings/support/whatsapp').on('value', s=>{
+        const num = s.val() || '01115699940';
+        const disp = $id('currentSupportDisplay');
+        if(disp) disp.innerText = num;
+        renderSocialPreview();
+    });
+
+    if(socialAdminListener){ db.ref('settings/social').off('value', socialAdminListener); }
+    socialAdminListener = db.ref('settings/social').on('value', snap=>{
+        const v = snap.val() || {};
+        currentSocialCache = {
+            whatsappEnabled: v.whatsappEnabled !== false,
+            whatsappNumber: v.whatsappNumber || '',
+            facebookEnabled: v.facebookEnabled !== false,
+            facebookUrl: v.facebookUrl || ''
+        };
+        const waToggle = $id('socialWhatsappEnabled');
+        const waInput = $id('socialWhatsappNumber');
+        const fbToggle = $id('socialFacebookEnabled');
+        const fbInput = $id('socialFacebookUrl');
+        if(waToggle) waToggle.checked = currentSocialCache.whatsappEnabled;
+        if(waInput) waInput.value = currentSocialCache.whatsappNumber;
+        if(fbToggle) fbToggle.checked = currentSocialCache.facebookEnabled;
+        if(fbInput) fbInput.value = currentSocialCache.facebookUrl;
+        renderSocialPreview();
+    });
+}
+
+function previewSocialChange(){
+    currentSocialCache.whatsappEnabled = $id('socialWhatsappEnabled')?.checked ?? true;
+    currentSocialCache.whatsappNumber = ($id('socialWhatsappNumber')?.value || '').trim();
+    currentSocialCache.facebookEnabled = $id('socialFacebookEnabled')?.checked ?? true;
+    currentSocialCache.facebookUrl = ($id('socialFacebookUrl')?.value || '').trim();
+    renderSocialPreview();
+}
+
+function normalizePhone(num){
+    if(!num) return '';
+    const digits = String(num).replace(/\D/g,'');
+    if(!digits) return '';
+    if(digits.startsWith('20')) return digits;
+    if(digits.startsWith('0')) return '2' + digits;
+    return digits;
+}
+function isFullUrl(v){
+    return typeof v === 'string' && /^https?:\/\//i.test(v.trim());
+}
+
+function renderSocialPreview(){
+    const box = $id('socialPreviewBox');
+    if(!box) return;
+
+    const supportNum = $id('currentSupportDisplay')?.innerText || '';
+    const finalWhatsappNum = currentSocialCache.whatsappNumber
+        ? currentSocialCache.whatsappNumber
+        : supportNum;
+
+    let html = '';
+
+    if(currentSocialCache.whatsappEnabled && finalWhatsappNum){
+        const waNum = normalizePhone(finalWhatsappNum);
+        html += `<div class="social-preview-btn whatsapp"><i class="fab fa-whatsapp"></i> واتساب</div>`;
+    } else if(currentSocialCache.whatsappEnabled){
+        html += `<div class="social-preview-btn whatsapp hidden-preview"><i class="fab fa-whatsapp"></i> واتساب (محتاج رقم)</div>`;
+    } else {
+        html += `<div class="social-preview-btn whatsapp hidden-preview"><i class="fab fa-whatsapp"></i> واتساب (مخفي)</div>`;
+    }
+
+    if(currentSocialCache.facebookEnabled && isFullUrl(currentSocialCache.facebookUrl)){
+        html += `<div class="social-preview-btn facebook"><i class="fab fa-facebook-f"></i> فيسبوك</div>`;
+    } else if(currentSocialCache.facebookEnabled){
+        html += `<div class="social-preview-btn facebook hidden-preview"><i class="fab fa-facebook-f"></i> فيسبوك (محتاج لينك)</div>`;
+    } else {
+        html += `<div class="social-preview-btn facebook hidden-preview"><i class="fab fa-facebook-f"></i> فيسبوك (مخفي)</div>`;
+    }
+
+    box.innerHTML = html;
+}
+
+function saveSocialSettings(){
+    const waEnabled = $id('socialWhatsappEnabled')?.checked ?? true;
+    const waNumber = ($id('socialWhatsappNumber')?.value || '').trim();
+    const fbEnabled = $id('socialFacebookEnabled')?.checked ?? true;
+    const fbUrl = ($id('socialFacebookUrl')?.value || '').trim();
+
+    if(fbEnabled && fbUrl && !/^https?:\/\//i.test(fbUrl)){
+        showToast('❌ رابط الفيسبوك لازم يبدأ بـ http:// أو https://', 'error');
+        return;
+    }
+    if(waEnabled && waNumber && !/^[0-9+\s\-]{8,15}$/.test(waNumber)){
+        showToast('❌ رقم الواتساب غير صحيح', 'error');
+        return;
+    }
+
+    db.ref('settings/social').set({
+        whatsappEnabled: waEnabled,
+        whatsappNumber: waNumber,
+        facebookEnabled: fbEnabled,
+        facebookUrl: fbUrl,
+        updatedAt: Date.now()
+    }).then(()=>{
+        showToast('✅ تم حفظ إعدادات السوشيال', 'success');
+    }).catch(err=>{
+        console.error(err);
+        showToast('❌ فشل الحفظ', 'error');
+    });
+}
+
 function initApp(){
     loadAreas();
     loadRegistrations();
     loadCustomers();
     loadBlacklist();
     loadAutoApprovalSettings();
+    loadSocialAdminSettings();
     startAutoApprovalLoop();
     startTimerRefreshLoop();
 }
@@ -974,9 +1147,6 @@ function renderAreasPage(){
     c.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ✅ التسجيلات - من db (family)
-// ═══════════════════════════════════════════════════════════════
 function loadRegistrations(){
     db.ref('pending_registrations').on('value', snap=>{
         const oldPending = Object.values(registrationsCache || {}).filter(r=>r && r.status==='pending').length;
@@ -1085,6 +1255,10 @@ function renderRegistrationCard(r){
     const date = r.requestedAt ? new Date(r.requestedAt) : null;
     const timeStr = date ? date.toLocaleString('ar-EG', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' }) : '';
 
+    const areaChangedBadge = (r.areaUpdatedAt && r.areaUpdatedBy === 'customer')
+        ? `<div style="margin-top:6px;padding:6px 10px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:10px;font-size:11px;color:#fbbf24"><i class="fas fa-exchange-alt"></i> العميل غيّر منطقته ${new Date(r.areaUpdatedAt).toLocaleString('ar-EG',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</div>`
+        : '';
+
     let actions = '';
     if(r.status === 'pending'){
         actions = `
@@ -1120,6 +1294,7 @@ function renderRegistrationCard(r){
                     <div class="reg-name" onclick="openCustomerDetails('${r.phone}')">${r.name||'بدون اسم'}</div>
                     <div class="reg-phone">📱 ${r.phone||'-'}</div>
                     <div class="reg-area"><i class="fas fa-map-marker-alt"></i> ${r.area||'-'}</div>
+                    ${areaChangedBadge}
                     <div class="reg-address"><i class="fas fa-home"></i> ${r.address||'بدون عنوان'}</div>
                     <div class="reg-time"><i class="fas fa-clock"></i> ${timeStr}</div>
                 </div>
@@ -1249,9 +1424,6 @@ function confirmBan(){
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ✅ الحظر - من db (family)
-// ═══════════════════════════════════════════════════════════════
 function loadBlacklist(){
     db.ref('blacklist').on('value', snap=>{
         blacklistCache = {};
@@ -1301,9 +1473,6 @@ function unbanNumber(phone){
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ✅ العملاء - من db2 (meshwark)
-// ═══════════════════════════════════════════════════════════════
 function loadCustomers(){
     db2.ref('customers').on('value', snap=>{
         customersCache = {};
@@ -1407,9 +1576,6 @@ function renderCustomersList(){
     c.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ✅ صفحة تفاصيل العميل الكاملة
-// ═══════════════════════════════════════════════════════════════
 function openCustomerDetails(phone){
     if(!phone){ return; }
     const clean = phone.replace(/\D/g,'');
@@ -1427,14 +1593,22 @@ function openCustomerDetails(phone){
         db.ref('users_challenges/'+clean).once('value'),
         db.ref('users_invites/'+clean).once('value'),
         db.ref('blacklist/'+clean).once('value'),
-        db.ref('rewards_history/'+clean).once('value')
-    ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap])=>{
+        db.ref('rewards_history/'+clean).once('value'),
+        db.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value')
+    ]).then(([custSnap, approvedSnap, pointsSnap, notifSnap, ordersSnap, challengesSnap, invitesSnap, blacklistSnap, rewardsSnap, regSnap])=>{
         const cust = custSnap.val() || {};
         const approved = approvedSnap.val() || {};
-        const points = pointsSnap.val() || 0;
+        const points = pointsSnap.val() || (cust.points || 0);
         const notifications = notifSnap.val() || {};
         const blacklist = blacklistSnap.val();
         const rewardsHistory = rewardsSnap.val() || {};
+
+        let latestReg = null;
+        regSnap.forEach(c => {
+            const rr = c.val();
+            if(!rr) return;
+            if(!latestReg || (rr.requestedAt||0) > (latestReg.requestedAt||0)) latestReg = rr;
+        });
 
         const orders = [];
         ordersSnap.forEach(c=>{
@@ -1457,8 +1631,11 @@ function openCustomerDetails(phone){
         rewardsList.sort((a,b)=>(b.usedAt||0) - (a.usedAt||0));
         const totalRedeemed = rewardsList.reduce((sum,r)=>sum + (Number(r.cost)||0), 0);
 
-        const regDate = cust.registeredAt ? new Date(cust.registeredAt).toLocaleString('ar-EG') : 'غير محدد';
-        const lastLogin = approved.lastLogin ? new Date(approved.lastLogin).toLocaleString('ar-EG') : 'غير محدد';
+        const lastLoginTs = approved.lastLogin || cust.lastLogin || 0;
+        const regDateTs = cust.registeredAt || approved.registeredAt || (latestReg ? latestReg.requestedAt : 0);
+        const regDate = regDateTs ? new Date(regDateTs).toLocaleString('ar-EG') : 'غير محدد';
+        const lastLogin = lastLoginTs ? new Date(lastLoginTs).toLocaleString('ar-EG') : 'لسه مسجلش دخول بعد الموافقة';
+        const displayAddress = cust.address || approved.address || (latestReg ? latestReg.address : '') || '';
 
         const challenges = challengesSnap.val() || {};
         const weekKeys = Object.keys(challenges).sort().reverse();
@@ -1478,7 +1655,7 @@ function openCustomerDetails(phone){
                     ${cust.isSuspended ? `<span class="customer-details-badge" style="background:rgba(245,158,11,.2);color:#fbbf24;border:1px solid rgba(245,158,11,.4)">⏸️ معلق</span>` : ''}
                     ${blacklist ? `<span class="customer-details-badge" style="background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.4)">🚫 محظور</span>` : ''}
                 </div>
-                ${cust.address?`<div style="margin-top:12px;font-size:12px;color:#cbd5e1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:8px 12px"><i class="fas fa-home" style="color:#10b981"></i> ${cust.address}</div>`:`<div style="margin-top:12px;font-size:11px;color:#fbbf24"><i class="fas fa-exclamation-triangle"></i> مفيش عنوان محفوظ</div>`}
+                ${displayAddress?`<div style="margin-top:12px;font-size:12px;color:#cbd5e1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:8px 12px"><i class="fas fa-home" style="color:#10b981"></i> ${displayAddress}</div>`:`<div style="margin-top:12px;font-size:11px;color:#fbbf24"><i class="fas fa-exclamation-triangle"></i> مفيش عنوان محفوظ</div>`}
             </div>
 
             <div class="customer-stats-grid">
@@ -1503,7 +1680,7 @@ function openCustomerDetails(phone){
             <div class="customer-info-box">
                 <div class="customer-info-title"><i class="fas fa-info-circle" style="color:#a78bfa"></i> معلومات</div>
                 <div class="customer-info-row"><span>📅 تاريخ التسجيل:</span><b>${regDate}</b></div>
-                <div class="customer-info-row"><span>🔐 آخر دخول:</span><b>${lastLogin}</b></div>
+                <div class="customer-info-row"><span>🔐 آخر دخول:</span><b style="color:${lastLoginTs?'#34d399':'#94a3b8'}">${lastLogin}</b></div>
                 <div class="customer-info-row"><span>🟢 طلبات نشطة:</span><b style="color:#fbbf24">${activeOrders}</b></div>
                 <div class="customer-info-row"><span>❌ طلبات ملغية:</span><b style="color:#fca5a5">${cancelledOrders}</b></div>
                 <div class="customer-info-row"><span>⭐ نقاط من الطلبات:</span><b style="color:#fbbf24">${pointsFromOrders}</b></div>
@@ -1654,15 +1831,14 @@ function addPoints(delta){
 function confirmPointsEdit(){
     if(!pointsTargetPhone) return;
     const newPoints = Number($id('newPointsInput').value) || 0;
-    db2.ref('customers/'+pointsTargetPhone+'/points').set(newPoints)
-        .then(()=>{
-            return db.ref('users_points/'+pointsTargetPhone).set(newPoints);
-        })
-        .then(()=>{
-            showToast(`✅ تم تحديث النقاط: ${newPoints}`,'success');
-            closePointsModal();
-        })
-        .catch(()=>showToast('خطأ في الحفظ','error'));
+    const clean = pointsTargetPhone.replace(/\D/g,'');
+    Promise.all([
+        db2.ref('customers/'+pointsTargetPhone+'/points').set(newPoints),
+        db.ref('users_points/'+clean).set(newPoints)
+    ]).then(()=>{
+        showToast(`✅ تم تحديث النقاط: ${newPoints}`,'success');
+        closePointsModal();
+    }).catch(()=>showToast('خطأ في الحفظ','error'));
 }
 
 function openEditCustModal(phone){
@@ -1672,15 +1848,10 @@ function openEditCustModal(phone){
     $id('editCustName').value = cust.name || '';
     $id('editCustAddress').value = cust.address || '';
     $id('editCustPoints').value = cust.points || 0;
-    const areaSelect = $id('editCustArea');
-    areaSelect.innerHTML = '';
-    Object.values(areasCache).forEach(a=>{
-        const opt = document.createElement('option');
-        opt.value = a;
-        opt.textContent = a;
-        if(a === cust.area) opt.selected = true;
-        areaSelect.appendChild(opt);
-    });
+    const hidden = $id('editCustAreaHidden');
+    if(hidden) hidden.value = cust.area || '';
+    const disp = $id('editCustAreaDisplay');
+    if(disp) disp.innerText = cust.area || '-';
     $id('editCustOverlay').classList.add('show');
     $id('editCustModal').classList.add('show');
 }
@@ -1692,15 +1863,47 @@ function closeEditCustModal(){
 function saveCustomerEdit(){
     if(!editCustTargetPhone) return;
     const newName = $id('editCustName').value.trim();
-    const newArea = $id('editCustArea').value;
     const newAddress = $id('editCustAddress').value.trim();
     const newPoints = Number($id('editCustPoints').value) || 0;
+    const hidden = $id('editCustAreaHidden');
+    const currentArea = hidden ? hidden.value : (customersCache[editCustTargetPhone]?.area || '');
     if(!newName){ showToast('اكتب الاسم','error'); return; }
-    Promise.all([
-        db2.ref('customers/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress, points: newPoints }),
-        db2.ref('approved_users/'+editCustTargetPhone).update({ name: newName, area: newArea, address: newAddress }),
-        db.ref('users_points/'+editCustTargetPhone).set(newPoints)
-    ]).then(()=>{
+
+    const clean = editCustTargetPhone.replace(/\D/g,'');
+    const promises = [
+        db2.ref('customers/'+editCustTargetPhone).update({
+            name: newName,
+            address: newAddress,
+            points: newPoints
+        }),
+        db2.ref('approved_users/'+editCustTargetPhone).update({
+            name: newName,
+            address: newAddress
+        }),
+        db.ref('users_points/'+clean).set(newPoints)
+    ];
+
+    promises.push(
+        db.ref('pending_registrations').orderByChild('phone').equalTo(editCustTargetPhone).once('value').then(snap=>{
+            const ps = [];
+            snap.forEach(c => {
+                ps.push(db.ref('pending_registrations/'+c.key).update({
+                    name: newName,
+                    address: newAddress
+                }).catch(()=>{}));
+            });
+            return Promise.all(ps);
+        }).catch(()=>{})
+    );
+
+    Promise.all(promises).then(()=>{
+        if(customersCache[editCustTargetPhone]){
+            customersCache[editCustTargetPhone].name = newName;
+            customersCache[editCustTargetPhone].address = newAddress;
+            customersCache[editCustTargetPhone].points = newPoints;
+        }
+        renderCustomersList();
+        renderRegistrationsList();
         showToast('✅ تم حفظ التعديلات','success');
         closeEditCustModal();
     }).catch(err=>{
@@ -1799,13 +2002,14 @@ function deleteCustomerCompletely(phone, name){
     showConfirm('fa-trash-alt','حذف العميل نهائياً',
         `⚠️ هيتم حذف <b>${name}</b> نهائياً من:<br>• العملاء<br>• المستخدمين المعتمدين<br>• النقاط<br>• التسجيلات<br>• الإشعارات<br>• سجل المكافآت<br><br>هل أنت متأكد؟`,
         ()=>{
+            const clean = phone.replace(/\D/g,'');
             const promises = [
                 db2.ref('customers/'+phone).remove(),
                 db2.ref('approved_users/'+phone).remove(),
-                db.ref('users_points/'+phone).remove(),
+                db.ref('users_points/'+clean).remove(),
                 db.ref('user_notifications/'+phone).remove(),
-                db.ref('users_challenges/'+phone).remove(),
-                db.ref('rewards_history/'+phone).remove()
+                db.ref('users_challenges/'+clean).remove(),
+                db.ref('rewards_history/'+clean).remove()
             ];
             db.ref('pending_registrations').orderByChild('phone').equalTo(phone).once('value').then(snap=>{
                 snap.forEach(c=>{
@@ -1838,23 +2042,16 @@ function checkAutoApproval(){
 
         const waitMs = minutes * 60 * 1000;
         const now = Date.now();
-        let processedCount = 0;
 
         Object.values(registrationsCache || {}).forEach(r=>{
             if(!r || r.status !== 'pending') return;
-
             const elapsed = now - (r.requestedAt || 0);
             if(elapsed < waitMs) return;
-
             const clean = (r.phone||'').replace(/\D/g,'');
-
             if(blacklistCache[clean]){
                 db.ref('pending_registrations/'+r.id).update({ status:'banned', bannedAt: now });
                 return;
             }
-
-            processedCount++;
-
             db.ref('pending_registrations/'+r.id).update({
                 status: 'approved',
                 approvedAt: now,
@@ -1929,7 +2126,7 @@ function switchPage(page){
     if(page === 'blacklist'){ renderBlacklist(); }
     if(page === 'stats'){ renderStats(); }
     if(page === 'areas'){ renderAreasPage(); }
-    if(page === 'settings'){ loadAutoApprovalSettings(); }
+    if(page === 'settings'){ loadAutoApprovalSettings(); loadSocialAdminSettings(); }
     window.scrollTo({ top:0, behavior:'smooth' });
 }
 
